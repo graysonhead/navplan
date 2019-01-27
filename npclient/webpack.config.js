@@ -13,7 +13,8 @@ const config = {
                 test: /\.jsx?/,
                 exclude: /node_modules/,
                 query: {
-                    presets: ['@babel/react'] //'@babel/preset-es2015', 'stage-0',]
+                    presets: ['@babel/react', '@babel/preset-env'], //'@babel/preset-es2015', 'stage-0',]
+                    plugins: ['@babel/plugin-proposal-class-properties', "@babel/plugin-transform-runtime"]
                 }
             },
             {
