@@ -7,11 +7,11 @@ import {
     FETCH_FLIGHTPLANS,
     DELETE_FLIGHTPLAN,
     EDIT_FLIGHTPLAN,
-    FETCH_FLIGHTPLAN
+    FETCH_FLIGHTPLAN,
+    FETCH_COORD
 } from "../reducers/types";
 import history from "../history";
-
-    const uid = TEMPORARY_TESTING_UID;
+const uid = TEMPORARY_TESTING_UID;
 
 
 export const createFlightPlan = (formValues, redirectUrl) => async dispatch => {
@@ -29,9 +29,21 @@ export const fetchFlightPlans = () => async dispatch => {
 };
 
 export const fetchFlightPlan = (id) => async dispatch => {
-    await navplan.get(`/flightplans/${id}`);
+    const response = await navplan.get(`/flightplans/${id}`);
 
     dispatch({ type: FETCH_FLIGHTPLAN, payload: response.data});
+    console.log(response.data);
+    const { steerpoints, markpoints } = response.data;
+    if (steerpoints) {
+        steerpoints.map(steerpoint => {
+            dispatch({ type: FETCH_COORD, payload: steerpoint})
+        })
+    }
+    if (markpoints) {
+        markpoints.map(markpoint => {
+            dispatch({ type: FETCH_COORD, payload: markpoint})
+        })
+    }
 };
 
 export const deleteFlightPlan = (id, redirectUrl) => async dispatch => {

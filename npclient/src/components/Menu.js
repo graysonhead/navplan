@@ -8,6 +8,7 @@ const Menu = () => {
               <Link to={"/"}>NavPlan.io</Link>
           </div>
           <Link to={"/flightplans/new"} className={"item"}>New Flightplan</Link>
+          <Link to={"/flightplans"} className={"item"}>Flightplans</Link>
       </div>
   )
 };

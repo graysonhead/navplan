@@ -27,10 +27,10 @@ class FlightPlan(db.Model):
 class Coordinate(db.Model):
     __tablename__ = "coordinate"
     id = Column(Integer, primary_key=True)
+    order = Column(Integer)
     fp_steerpoint_id = Column(Integer, ForeignKey("flightplan.id"))
     fp_markpoint_id = Column(Integer, ForeignKey("flightplan.id"))
     steerpoint_flightplan = relationship("FlightPlan", foreign_keys=[fp_steerpoint_id])
     markpoint_flightplan = relationship("FlightPlan", foreign_keys=[fp_markpoint_id])
-
     latitude = Column(Float)
     longitude = Column(Float)
