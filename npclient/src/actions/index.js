@@ -36,12 +36,12 @@ export const fetchFlightPlan = (id) => async dispatch => {
     const { steerpoints, markpoints } = response.data;
     if (steerpoints) {
         steerpoints.map(steerpoint => {
-            dispatch({ type: FETCH_COORD, payload: steerpoint})
+            dispatch({ type: FETCH_COORD, payload: steerpoint});
         })
     }
     if (markpoints) {
         markpoints.map(markpoint => {
-            dispatch({ type: FETCH_COORD, payload: markpoint})
+            dispatch({ type: FETCH_COORD, payload: markpoint});
         })
     }
 };
@@ -53,4 +53,10 @@ export const deleteFlightPlan = (id, redirectUrl) => async dispatch => {
     if (redirectUrl) {
             history.push(redirectUrl);
     }
+};
+
+export const fetchCoord = (id) => async dispatch => {
+    const response = await navplan.get(`/coordinates/${id}`);
+
+    dispatch({ type: FETCH_COORD, payload: response });
 };
