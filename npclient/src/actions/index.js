@@ -1,5 +1,6 @@
 import navplan from '../apis/navplan';
 import {TEMPORARY_TESTING_UID} from '../index';
+import arrayMove from 'array-move';
 import {
     CREATE_FLIGHTPLAN,
     SIGN_OUT,
@@ -8,11 +9,12 @@ import {
     DELETE_FLIGHTPLAN,
     EDIT_FLIGHTPLAN,
     FETCH_FLIGHTPLAN,
-    FETCH_COORD
+    FETCH_COORD,
+    FETCH_COORDS,
+    EDIT_COORD
 } from "../reducers/types";
 import history from "../history";
 const uid = TEMPORARY_TESTING_UID;
-
 
 export const createFlightPlan = (formValues, redirectUrl) => async dispatch => {
     const response = await navplan.post('/flightplans', { ...formValues, owner_id: uid });
@@ -59,4 +61,20 @@ export const fetchCoord = (id) => async dispatch => {
     const response = await navplan.get(`/coordinates/${id}`);
 
     dispatch({ type: FETCH_COORD, payload: response });
+};
+
+export const fetchCoordsFromFlightPlan = (flightplan_id) => async dispatch => {
+    const response = await navplan.get(`/coordinates?search={"name":"fp_steerpoint_id","op":"eq","val":"${flightplan_id}"}`);
+
+    dispatch({ type: FETCH_COORDS, payload: response.data.objects });
+};
+
+export const reorderSteerpoint = (coord, new_pos, steerpoint_array) => async dispatch => {
+    let new_array = arrayMove(steerpoint_array, steerpoint_array.indexOf(coord), new_pos);
+    new_array.map(async steerpoint => {
+        steerpoint.order = new_array.indexOf(steerpoint);
+        const response = await navplan.patch(`/coordinates/${steerpoint.id}`, { ...steerpoint });
+        dispatch({ type: EDIT_COORD, payload: response});
+    });
+
 };
