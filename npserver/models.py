@@ -34,3 +34,4 @@ class Coordinate(db.Model):
     markpoint_flightplan = relationship("FlightPlan", foreign_keys=[fp_markpoint_id])
     latitude = Column(Float)
     longitude = Column(Float)
+    steerpoint_type = Column(String)

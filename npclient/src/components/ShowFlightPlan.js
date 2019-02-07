@@ -2,11 +2,27 @@ import React from 'react';
 import _ from 'lodash';
 import { connect } from 'react-redux';
 import { fetchFlightPlan, fetchCoordsFromFlightPlan } from "../actions";
+import { Button, Divider } from 'semantic-ui-react';
 import SteerpointCard from "./SteerpointCard";
+import history from '../history';
+import queryString from 'query-string';
+
 class ShowFlightPlan extends React.Component {
+    state = {
+        displayMode: "LatLon Degrees"
+    };
     componentDidMount() {
         this.props.fetchFlightPlan(this.props.match.params.id);
         this.props.fetchCoordsFromFlightPlan(this.props.match.params.id);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        const values = queryString.parse(nextProps.location.search);
+        if (values.displayMode) {
+            this.setState({displayMode: values.displayMode});
+        } else {
+            this.setState({displayMode: 'LatLonDegrees'});
+        }
     }
 
     renderSteerpoints() {
@@ -25,6 +41,7 @@ class ShowFlightPlan extends React.Component {
                 last_steerpoint = false;
             }
             return <SteerpointCard
+                displayMode={this.state.displayMode}
                 steerpoint_array={sorted_steerpoints}
                 key={steerpoint.id}
                 coord_id={steerpoint.id}
@@ -46,7 +63,46 @@ class ShowFlightPlan extends React.Component {
         return (
             <div>
                 <h3>{`FlightPlan: ${this.props.flightPlan.name}`}</h3>
-                <div className={"ui celled list"}>
+                <div>
+                    <Button.Group widths={5}>
+                        <Button
+                            active={this.state.displayMode === "LatLonDegrees" ? true : false}
+                            onClick={() => {history.push(
+                                {pathname: this.props.location.pathname, search: `?displayMode=LatLonDegrees`})}}
+                        >
+                            LatLon Degrees
+                        </Button>
+                        <Button
+                            active={this.state.displayMode === "LatLonDegreesMinutes" ? true : false}
+                            onClick={() => {history.push(
+                                {pathname: this.props.location.pathname, search: `?displayMode=LatLonDegreesMinutes`})}}
+                        >
+                            LatLon Degrees/Minutes
+                        </Button>
+                        <Button
+                            active={this.state.displayMode === "LatLonDegMinSec" ? true : false}
+                            onClick={() => {history.push(
+                                {pathname: this.props.location.pathname, search: `?displayMode=LatLonDegMinSec`})}}
+                        >
+                            LatLon Deg/Min/Sec
+                        </Button>
+                        <Button
+                            active={this.state.displayMode === "MGRS" ? true : false}
+                            onClick={() => {history.push(
+                                {pathname: this.props.location.pathname, search: `?displayMode=MGRS`})}}
+                        >
+                            MGRS
+                        </Button>
+                        <Button
+                            active={this.state.displayMode === "UTM" ? true : false}
+                            onClick={() => {history.push(
+                                {pathname: this.props.location.pathname, search: `?displayMode=UTM`})}}
+                        >
+                            UTM
+                        </Button>
+                    </Button.Group>
+                </div>
+                <div className={"ui segments"}>
                     {this.renderSteerpoints()}
                 </div>
             </div>
