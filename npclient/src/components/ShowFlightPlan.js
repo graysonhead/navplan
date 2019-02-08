@@ -2,7 +2,7 @@ import React from 'react';
 import _ from 'lodash';
 import { connect } from 'react-redux';
 import { fetchFlightPlan, fetchCoordsFromFlightPlan } from "../actions";
-import { Button, Divider } from 'semantic-ui-react';
+import { Button, Icon, Divider } from 'semantic-ui-react';
 import SteerpointCard from "./SteerpointCard";
 import history from '../history';
 import queryString from 'query-string';
@@ -104,6 +104,15 @@ class ShowFlightPlan extends React.Component {
                 </div>
                 <div className={"ui segments"}>
                     {this.renderSteerpoints()}
+                </div>
+                <div className={"ui right floated"}>
+                    <Button primary
+                    onClick={() => history.push({
+                            pathname: `/flightplans/${this.props.flightPlan.id}/newsteerpoint`
+                        })}
+                    >
+                        <Icon name={'plus square'}/>Create Steerpoint
+                    </Button>
                 </div>
             </div>
         )

@@ -19,7 +19,9 @@ class CoordinateLLForm extends React.Component {
     }
 
     onSubmit = formValues => {
-        this.props.onSubmit(formValues);
+        const coord = new Coordinates(formValues.coordinates);
+        const coord_dict = { latitude: coord.getLatitude(), longitude: coord.getLongitude()};
+        this.props.onSubmit(coord_dict);
     };
 
     renderInput = ({input, label, meta}) => {
@@ -56,9 +58,12 @@ const isValidPosition = function(position) {
   }
 };
 
+const getLatLon = function(position) {
+    new Coor
+}
+
 const validate = (formvalues) => {
     const errors = {};
-    console.log(isValidPosition(formvalues.coordinates));
     if (!formvalues.coordinates) {
         errors.coordinates = "You must enter coordinates"
     } else if (!isValidPosition(formvalues.coordinates)) {

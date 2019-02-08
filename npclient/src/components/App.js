@@ -22,7 +22,7 @@ const App = () => {
                         <Route path={"/flightplans/:id"} exact component={ShowFlightPlan} />
                         <Route path={"/flightplans"} exact component={ListFlightplans} />
                         <Route path={"/flightplans/delete/:id"} exact component={DeleteFlightPlans} />
-                        <Route path={"/steerpoints/new"} exact component={NewSteerpoint} />
+                        <Route path={"/flightplans/:id/newsteerpoint"} exact component={NewSteerpoint} />
                     </Switch>
                 </div>
             </Router>

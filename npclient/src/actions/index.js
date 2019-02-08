@@ -16,7 +16,6 @@ import {
 } from "../reducers/types";
 import history from "../history";
 const uid = TEMPORARY_TESTING_UID;
-import Coordinates from 'coordinate-parser';
 
 export const createFlightPlan = (formValues, redirectUrl) => async dispatch => {
     const response = await navplan.post('/flightplans', { ...formValues, owner_id: uid });
@@ -81,13 +80,8 @@ export const reorderSteerpoint = (coord, new_pos, steerpoint_array) => async dis
 
 };
 
-export const createSteerpoint = (lat_lon_string, flightplan_id, redirectUrl) => async dispatch => {
-    const coord = Coordinates(lat_lon_string);
-    const response = await navplan.post('/coordinates', {
-        latitude: coord.getLatitude(),
-        longitude: coord.getLongitude(),
-        fp_steerpoint_id: flightplan_id,
-        steerpoint_type: "stpt" });
+export const createSteerpoint = (coordinatedict, flightplan_id, redirectUrl) => async dispatch => {
+    const response = await navplan.post('/coordinates', { ...coordinatedict, fp_steerpoint_id: flightplan_id, steerpoint_type: "stpt" });
     dispatch({ type: CREATE_COORD, payload: response.data});
     if (redirectUrl) {
         history.push(redirectUrl);
