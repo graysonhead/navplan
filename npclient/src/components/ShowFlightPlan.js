@@ -13,6 +13,11 @@ class ShowFlightPlan extends React.Component {
     };
     componentDidMount() {
         this.props.fetchFlightPlan(this.props.match.params.id);
+        this.fetchData();
+        this.timer = setInterval(() => this.fetchData(), 5000)
+    }
+
+    fetchData() {
         this.props.fetchCoordsFromFlightPlan(this.props.match.params.id);
     }
 
@@ -86,20 +91,20 @@ class ShowFlightPlan extends React.Component {
                         >
                             LatLon Deg/Min/Sec
                         </Button>
-                        <Button
-                            active={this.state.displayMode === "MGRS" ? true : false}
-                            onClick={() => {history.push(
-                                {pathname: this.props.location.pathname, search: `?displayMode=MGRS`})}}
-                        >
-                            MGRS
-                        </Button>
-                        <Button
-                            active={this.state.displayMode === "UTM" ? true : false}
-                            onClick={() => {history.push(
-                                {pathname: this.props.location.pathname, search: `?displayMode=UTM`})}}
-                        >
-                            UTM
-                        </Button>
+                        {/*<Button*/}
+                            {/*active={this.state.displayMode === "MGRS" ? true : false}*/}
+                            {/*onClick={() => {history.push(*/}
+                                {/*{pathname: this.props.location.pathname, search: `?displayMode=MGRS`})}}*/}
+                        {/*>*/}
+                            {/*MGRS*/}
+                        {/*</Button>*/}
+                        {/*<Button*/}
+                            {/*active={this.state.displayMode === "UTM" ? true : false}*/}
+                            {/*onClick={() => {history.push(*/}
+                                {/*{pathname: this.props.location.pathname, search: `?displayMode=UTM`})}}*/}
+                        {/*>*/}
+                            {/*UTM*/}
+                        {/*</Button>*/}
                     </Button.Group>
                 </div>
                 <div className={"ui segments"}>

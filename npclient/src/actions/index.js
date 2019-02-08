@@ -12,7 +12,7 @@ import {
     CREATE_COORD,
     FETCH_COORD,
     FETCH_COORDS,
-    EDIT_COORD
+    EDIT_COORD, DELETE_COORD
 } from "../reducers/types";
 import history from "../history";
 const uid = TEMPORARY_TESTING_UID;
@@ -92,4 +92,13 @@ export const editCoordinate = (coord_id, data) => async dispatch => {
     const response = await navplan.patch(`/coordinates/${coord_id}`, { ...data });
 
     dispatch({ type: EDIT_COORD, payload: response.data })
+};
+
+export const deleteCoordinate = (id, go_back) => async dispatch => {
+    await navplan.delete(`/coordinates/${id}`);
+
+    dispatch({ type: DELETE_COORD, payload: id});
+    if (go_back) {
+        history.goBack();
+    }
 };

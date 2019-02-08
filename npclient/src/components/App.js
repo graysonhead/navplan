@@ -9,6 +9,7 @@ import ListFlightplans from "./ListFlightplans";
 import DeleteFlightPlans from "./DeleteFlightPlan";
 import ShowFlightPlan from "./ShowFlightPlan";
 import NewSteerpoint from "./NewSteerpoint";
+import DeleteCoordinate from "./DeleteCoordinate";
 
 const App = () => {
     return (
@@ -23,6 +24,7 @@ const App = () => {
                         <Route path={"/flightplans"} exact component={ListFlightplans} />
                         <Route path={"/flightplans/delete/:id"} exact component={DeleteFlightPlans} />
                         <Route path={"/flightplans/:id/newsteerpoint"} exact component={NewSteerpoint} />
+                        <Route path={"/coordinates/:id/delete"} exact component={DeleteCoordinate} />
                     </Switch>
                 </div>
             </Router>

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { fetchCoord, reorderSteerpoint, editCoordinate } from "../actions";
 import { Field, reduxForm } from 'redux-form';
 import SelectType from './forms/SelectType';
+import history from '../history';
 var LatLon = require('geodesy').LatLonSpherical;
 var Utm = require('geodesy').Utm;
 
@@ -39,6 +40,8 @@ class SteerpointCard extends React.Component {
         )
     };
 
+
+
     onTypeChange = (e, { value }) => {
         const data = { steerpoint_type: value};
         console.log(value);
@@ -67,6 +70,24 @@ class SteerpointCard extends React.Component {
         }
     }
 
+    onDelete = () => {
+      history.push(`/coordinates/${this.props.coordinate.id}/delete`)
+    };
+
+
+    renderDelete() {
+        return (
+            <div
+            className={"ui icon button"}
+            data-tooltip="Delete Steerpoint"
+            data-variation="mini"
+            onClick={this.onDelete}
+            ><i className={"trash icon"} /></div>
+
+        )
+    }
+
+
     renderControls() {
         return (
                 <div className="right floated ui buttons">
@@ -77,6 +98,7 @@ class SteerpointCard extends React.Component {
                             />
                     {this.renderMoveUp()}
                     {this.renderMoveDown()}
+                    {this.renderDelete()}
                 </div>
         )
     }
@@ -131,7 +153,6 @@ class SteerpointCard extends React.Component {
                 {this.renderControls()}
                     <div className={"content"}>
                         {this.getDisplayString()}
-                        {/*{`Coords: ${this.props.coordinate.latitude} ${this.props.coordinate.longitude} ${this.props.coordinate.order}`}*/}
                     </div>
             </div>
         )
