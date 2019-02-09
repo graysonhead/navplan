@@ -1,7 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
 import { connect } from 'react-redux';
-import { fetchFlightPlan, fetchCoordsFromFlightPlan } from "../actions";
+import { fetchFlightPlan, fetchDelCoordsFromFlightPlan } from "../actions";
 import { Button, Icon, Divider } from 'semantic-ui-react';
 import SteerpointCard from "./SteerpointCard";
 import history from '../history';
@@ -18,7 +18,7 @@ class ShowFlightPlan extends React.Component {
     }
 
     fetchData() {
-        this.props.fetchCoordsFromFlightPlan(this.props.match.params.id);
+        this.props.fetchDelCoordsFromFlightPlan(this.props.match.params.id);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -131,4 +131,4 @@ const mapStateToProps = (state, ownProps) => {
     };
 };
 
-export default connect(mapStateToProps, { fetchFlightPlan, fetchCoordsFromFlightPlan })(ShowFlightPlan);
+export default connect(mapStateToProps, { fetchFlightPlan, fetchDelCoordsFromFlightPlan: fetchDelCoordsFromFlightPlan })(ShowFlightPlan);

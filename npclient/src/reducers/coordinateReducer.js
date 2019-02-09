@@ -4,13 +4,16 @@ import {
     FETCH_COORD,
     FETCH_COORDS,
     EDIT_COORD,
-    DELETE_COORD
+    DELETE_COORD,
+    FETCH_DELETE_COORDS
 } from "./types";
 
 export default (state = {}, action) => {
     switch (action.type) {
         case CREATE_COORD:
             return { ...state, [action.payload.id]: action.payload };
+        case FETCH_DELETE_COORDS:
+            return { ..._.mapKeys(action.payload, 'id')};
         case FETCH_COORDS:
             return { ...state, ..._.mapKeys(action.payload, 'id') };
         case FETCH_COORD:

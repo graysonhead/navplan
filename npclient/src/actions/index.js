@@ -11,6 +11,7 @@ import {
     FETCH_FLIGHTPLAN,
     CREATE_COORD,
     FETCH_COORD,
+    FETCH_DELETE_COORDS,
     FETCH_COORDS,
     EDIT_COORD, DELETE_COORD
 } from "../reducers/types";
@@ -68,6 +69,12 @@ export const fetchCoordsFromFlightPlan = (flightplan_id) => async dispatch => {
     const response = await navplan.get(`/coordinates?search={"name":"fp_steerpoint_id","op":"eq","val":"${flightplan_id}"}`);
 
     dispatch({ type: FETCH_COORDS, payload: response.data.objects });
+};
+
+export const fetchDelCoordsFromFlightPlan = (flightplan_id) => async dispatch => {
+    const response = await navplan.get(`/coordinates?search={"name":"fp_steerpoint_id","op":"eq","val":"${flightplan_id}"}`);
+
+    dispatch({ type: FETCH_DELETE_COORDS, payload: response.data.objects });
 };
 
 export const reorderSteerpoint = (coord, new_pos, steerpoint_array) => async dispatch => {

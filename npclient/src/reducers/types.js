@@ -8,6 +8,7 @@ export const EDIT_FLIGHTPLAN = 'EDIT_FLIGHTPLAN';
 
 export const CREATE_COORD = 'CREATE_COORD';
 export const FETCH_COORDS = 'FETCH_COORDS';
+export const FETCH_DELETE_COORDS = 'FETCH_DELETE_COORDS';
 export const FETCH_COORD = 'FETCH_COORD';
 export const EDIT_COORD = 'EDIT_COORD';
 export const DELETE_COORD = 'DELETE_COORD';
