@@ -1,6 +1,9 @@
 from npserver import db
-from sqlalchemy import String, Column, Integer, ForeignKey, Float
+from sqlalchemy import String, Column, Integer, ForeignKey, Float, DateTime
+from sqlalchemy.sql import func
 from sqlalchemy.orm import relationship
+from werkzeug.security import generate_password_hash, check_password_hash
+from datetime import datetime
 
 
 class User(db.Model):
@@ -8,6 +11,41 @@ class User(db.Model):
     id = Column(Integer, primary_key=True)
     g_auth_id = Column(String)
     flightplans = relationship("FlightPlan", back_populates="owner")
+    callsign = Column(String(120), unique=True)
+    email = Column(String(120), unique=True)
+    password = Column(String(120))
+    created_date = Column(DateTime, server_default=func.now())
+
+    def __init__(self, callsign=None, password=None, email=None):
+        self.callsign = callsign
+        self.email = email
+        if password:
+            self.set_password(password)
+
+    # Flask User Properties
+    @property
+    def is_authenticated(self):
+        return True
+
+    @property
+    def is_active(self):
+        return True
+
+    @property
+    def is_anonymous(self):
+        return False
+
+    def get_id(self):
+        return self.username
+
+    def set_password(self, password):
+        self.password = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password, password)
+
+    def __repr__(self):
+        return '<User: {}>'.format(self.callsign)
 
 
 class FlightPlan(db.Model):

@@ -6,7 +6,8 @@ api_manager.create_api(
     User,
     methods=['GET', 'POST', 'PATCH', 'DELETE'],
     url_prefix=V1_PREFIX,
-    collection_name='users'
+    collection_name='users',
+    exclude_columns=['password']
 )
 api_manager.create_api(
     FlightPlan,
