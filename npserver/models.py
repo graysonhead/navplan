@@ -1,9 +1,11 @@
-from npserver import db
+from npserver import db, app
 from sqlalchemy import String, Column, Integer, ForeignKey, Float, DateTime
 from sqlalchemy.sql import func
 from sqlalchemy.orm import relationship
 from werkzeug.security import generate_password_hash, check_password_hash
-from datetime import datetime
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer, \
+    BadSignature, \
+    SignatureExpired
 
 
 class User(db.Model):
@@ -21,6 +23,35 @@ class User(db.Model):
         self.email = email
         if password:
             self.set_password(password)
+
+    def generate_auth_token(self, expiration=600):
+        s = Serializer(app.config['SECRET_KEY'], expires_in=expiration)
+        return s.dumps({'id': self.id})
+
+    @staticmethod
+    def verify_auth_token(token):
+        s = Serializer(app.config['SECRET_KEY'])
+        try:
+            data = s.loads(token)
+        except SignatureExpired:
+            return None
+        except BadSignature:
+            return None
+        user = User.query.get(data['id'])
+        return user
+
+    def as_dict(self):
+        included_attributes = [
+            'callsign',
+            'id',
+            'email',
+            'g_auth_id',
+            'created_date'
+        ]
+        ret_dict = {}
+        for key in included_attributes:
+            ret_dict.update({key: getattr(self, key)})
+        return ret_dict
 
     # Flask User Properties
     @property

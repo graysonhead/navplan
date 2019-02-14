@@ -2,6 +2,8 @@ from npserver.models import User, FlightPlan, Coordinate
 from npserver import api_manager
 V1_PREFIX = '/api/v1'
 
+
+
 api_manager.create_api(
     User,
     methods=['GET', 'POST', 'PATCH', 'DELETE'],

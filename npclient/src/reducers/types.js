@@ -1,5 +1,8 @@
 export const SIGN_IN = 'SIGN_IN';
 export const SIGN_OUT = 'SIGN_OUT';
+export const GET_TOKEN = 'GET_TOKEN';
+export const EXPIRE_TOKEN = 'EXPIRE_TOKEN';
+
 export const CREATE_FLIGHTPLAN = 'CREATE_FLIGHTPLAN';
 export const FETCH_FLIGHTPLANS = 'FETCH_FLIGHTPLANS';
 export const DELETE_FLIGHTPLAN = 'DELETE_FLIGHTPLAN';

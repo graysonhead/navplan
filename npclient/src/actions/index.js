@@ -5,6 +5,7 @@ import {
     CREATE_FLIGHTPLAN,
     SIGN_OUT,
     SIGN_IN,
+    GET_TOKEN,
     FETCH_FLIGHTPLANS,
     DELETE_FLIGHTPLAN,
     EDIT_FLIGHTPLAN,
@@ -17,6 +18,8 @@ import {
 } from "../reducers/types";
 import history from "../history";
 const uid = TEMPORARY_TESTING_UID;
+
+
 
 export const createFlightPlan = (formValues, redirectUrl) => async dispatch => {
     const response = await navplan.post('/flightplans', { ...formValues, owner_id: uid });
@@ -109,3 +112,4 @@ export const deleteCoordinate = (id, go_back) => async dispatch => {
         history.goBack();
     }
 };
+
