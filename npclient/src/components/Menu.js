@@ -19,11 +19,30 @@ import { Link } from 'react-router-dom';
 class Menu extends React.Component {
 
     renderCallsign() {
-        console.log(this.props.auth.isSignedIn);
         if (this.props.auth.isSignedIn) {
             return (
                 <div className={"ui item"}>
                     {this.props.auth.user.callsign}
+                </div>
+            )
+        }
+    }
+
+    renderLogout() {
+        if (this.props.auth.isSignedIn) {
+            return (
+                <div className={"ui item"}>
+                    <Link to={"/logout"}>Logout</Link>
+                </div>
+            )
+        }
+    }
+
+    renderLogin() {
+        if (!this.props.auth.isSignedIn) {
+            return (
+                <div className={"ui item"}>
+                    <Link to={"/login"}>Login</Link>
                 </div>
             )
         }
@@ -39,6 +58,8 @@ class Menu extends React.Component {
               <Link to={"/flightplans"} className={"item"}>Flightplans</Link>
               <div className={"right menu"}>
                   {this.renderCallsign()}
+                  {this.renderLogout()}
+                  {this.renderLogin()}
               </div>
             </div>
         )
