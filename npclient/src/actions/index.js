@@ -19,7 +19,17 @@ import {
 import history from "../history";
 const uid = TEMPORARY_TESTING_UID;
 
+export const logInUser = (formValues) => async dispatch => {
+    const auth_object = {
+      username: formValues.email,
+      password: formValues.password};
+    console.log(auth_object);
+    const response = await navplan.get('/auth/currentuser', {auth: auth_object});
+    dispatch({ type: SIGN_IN, payload: response.data});
 
+    const token_resp = await navplan.get('/auth/token', {auth: auth_object});
+    dispatch({ type: GET_TOKEN, payload: token_resp.data.token});
+};
 
 export const createFlightPlan = (formValues, redirectUrl) => async dispatch => {
     const response = await navplan.post('/flightplans', { ...formValues, owner_id: uid });

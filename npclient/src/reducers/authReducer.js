@@ -1,7 +1,7 @@
 import {SIGN_IN, SIGN_OUT, GET_TOKEN, EXPIRE_TOKEN} from "./types";
 
 const INITIAL_STATE = {
-    isSignedIn: null,
+    isSignedIn: false,
     user: null,
     authToken: null
 };
@@ -13,7 +13,7 @@ export default (state=INITIAL_STATE, action) => {
         case SIGN_OUT:
             return { ...state, isSignedIn: false, user: null };
         case GET_TOKEN:
-            return { ...state, authToken: action };
+            return { ...state, authToken: action.payload };
         case EXPIRE_TOKEN:
             return { ...state, authToken: null };
         default:

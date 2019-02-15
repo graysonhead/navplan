@@ -24,12 +24,12 @@ def newuser(session):
 def get_resource():
     return jsonify({'data': f'Hello {g.user.callsign}'})
 
-@app.route('/auth/currentuser')
+@app.route('/api/v1/auth/currentuser')
 @auth.login_required
 def get_current_user():
     return jsonify(g.user.as_dict())
 
-@app.route('/auth/token')
+@app.route('/api/v1/auth/token')
 @auth.login_required
 def get_auth_token():
     token = g.user.generate_auth_token()

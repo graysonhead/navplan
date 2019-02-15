@@ -41,10 +41,13 @@ class LoginForm extends React.Component {
 
     render () {
         return (
-            <form className={"ui form error"} onSubmit={this.props.handleSubmit(this.onSubmit())}>
-                <Field name={"email"} component={this.renderInput} label={"Email Address"} />
-                <Field name={"password"} component={this.renderPasswordInput} label={"Password"} />
-            </form>
+            <div>
+                <form className={"ui form error"} onSubmit={this.props.handleSubmit(this.onSubmit)}>
+                    <Field name={"email"} component={this.renderInput} label={"Email Address"} />
+                    <Field name={"password"} component={this.renderPasswordInput} label={"Password"} />
+                    <button className={"ui button primary"}>Login</button>
+                </form>
+            </div>
         )
     }
 }
