@@ -1,22 +1,17 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-
-// const Menu = () => {
-//   return (
-//       <div className={"ui menu"}>
-//           <div className="header item">
-//               <Link to={"/"}>NavPlan.io</Link>
-//           </div>
-//           <Link to={"/flightplans/new"} className={"item"}>New Flightplan</Link>
-//           <Link to={"/flightplans"} className={"item"}>Flightplans</Link>
-//           <div className={"right menu"}>
-//           </div>
-//       </div>
-//   )
-// };
+import { logOutUser, logInWithCookie } from "../actions";
+import Cookies from 'js-cookie';
 
 class Menu extends React.Component {
+
+    componentDidMount() {
+        const token = Cookies.get('token');
+        if (token) {
+            this.props.logInWithCookie(token);
+        }
+    }
 
     renderCallsign() {
         if (this.props.auth.isSignedIn) {
@@ -28,11 +23,15 @@ class Menu extends React.Component {
         }
     }
 
+    onLogOut() {
+        this.props.logOutUser()
+    }
+
     renderLogout() {
         if (this.props.auth.isSignedIn) {
             return (
                 <div className={"ui item"}>
-                    <Link to={"/logout"}>Logout</Link>
+                    <Link to={"/"} onClick={this.onLogOut}>Logout</Link>
                 </div>
             )
         }
@@ -72,4 +71,4 @@ const mapStateToProps = (state, ownProps) => {
     }
 };
 
-export default connect(mapStateToProps, {})(Menu);
+export default connect(mapStateToProps, {logOutUser, logInWithCookie })(Menu);

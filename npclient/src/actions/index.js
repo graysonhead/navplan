@@ -1,6 +1,7 @@
 import navplan from '../apis/navplan';
 import {TEMPORARY_TESTING_UID} from '../index';
 import arrayMove from 'array-move';
+import Cookies from 'js-cookie';
 import {
     CREATE_FLIGHTPLAN,
     SIGN_OUT,
@@ -28,7 +29,25 @@ export const logInUser = (formValues) => async dispatch => {
     dispatch({ type: SIGN_IN, payload: response.data});
 
     const token_resp = await navplan.get('/auth/token', {auth: auth_object});
+    Cookies.set('token', token_resp.data.token, { expires: 1 });
     dispatch({ type: GET_TOKEN, payload: token_resp.data.token});
+};
+
+export const logInWithCookie = (token) => async dispatch => {
+    const auth_object ={
+        username: token,
+        password: 'unused'
+    };
+    const response = await navplan.get('/auth/currentuser', {auth: auth_object});
+    dispatch({ type: SIGN_IN, payload: response.data });
+};
+
+export const logOutUser = (redirectUrl) => {
+    Cookies.remove('token');
+    dispatch({ type: SIGN_OUT, payload: null});
+    if (redirectUrl) {
+        history.push(redirectUrl);
+    }
 };
 
 export const createFlightPlan = (formValues, redirectUrl) => async dispatch => {

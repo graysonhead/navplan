@@ -24,7 +24,7 @@ class User(db.Model):
         if password:
             self.set_password(password)
 
-    def generate_auth_token(self, expiration=600):
+    def generate_auth_token(self, expiration=86400):
         s = Serializer(app.config['SECRET_KEY'], expires_in=expiration)
         return s.dumps({'id': self.id})
 
