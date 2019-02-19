@@ -15,22 +15,30 @@ import {
     FETCH_COORD,
     FETCH_DELETE_COORDS,
     FETCH_COORDS,
-    EDIT_COORD, DELETE_COORD
+    EDIT_COORD, DELETE_COORD,
+    ADD_MESSAGE,
+    REMOVE_MESSAGE,
+    CLEAR_MESSAGES
 } from "../reducers/types";
 import history from "../history";
 const uid = TEMPORARY_TESTING_UID;
+
 
 export const logInUser = (formValues) => async dispatch => {
     const auth_object = {
       username: formValues.email,
       password: formValues.password};
-    console.log(auth_object);
     const response = await navplan.get('/auth/currentuser', {auth: auth_object});
     dispatch({ type: SIGN_IN, payload: response.data});
-
+    console.log(response);
     const token_resp = await navplan.get('/auth/token', {auth: auth_object});
-    Cookies.set('token', token_resp.data.token, { expires: 1 });
+    Cookies.set('token', token_resp.data.token, { path: '', expires: 1 });
+    // const cookie = Cookies.get();
+    // console.log(cookie);
     dispatch({ type: GET_TOKEN, payload: token_resp.data.token});
+    if (response.status === 200) {
+        dispatch({ type: ADD_MESSAGE, payload: {text: "You have logged in", emphasis: 'positive', title: "Logged in"}})
+    }
 };
 
 export const logInWithCookie = (token) => async dispatch => {
@@ -42,9 +50,9 @@ export const logInWithCookie = (token) => async dispatch => {
     dispatch({ type: SIGN_IN, payload: response.data });
 };
 
-export const logOutUser = (redirectUrl) => {
-    Cookies.remove('token');
+export const logOutUser = (redirectUrl) => dispatch => {
     dispatch({ type: SIGN_OUT, payload: null});
+    Cookies.remove('token', { path: ''});
     if (redirectUrl) {
         history.push(redirectUrl);
     }
@@ -140,5 +148,13 @@ export const deleteCoordinate = (id, go_back) => async dispatch => {
     if (go_back) {
         history.goBack();
     }
+};
+
+export const dismissMessage = (index) => async dispatch => {
+  dispatch({ type: REMOVE_MESSAGE, payload: index });
+};
+
+export const dismissAllMessages = () => async dispatch => {
+    dispatch({ type: CLEAR_MESSAGES});
 };
 

@@ -11,6 +11,7 @@ import ShowFlightPlan from "./ShowFlightPlan";
 import NewSteerpoint from "./NewSteerpoint";
 import DeleteCoordinate from "./DeleteCoordinate";
 import Login from './Login';
+import Flash from './Flash';
 
 const App = () => {
     return (
@@ -18,6 +19,7 @@ const App = () => {
             <Router history={history}>
                 <div>
                     <Menu />
+                    <Flash />
                     <Switch>
                         <Route path={"/"} exact component={Home} />
                         <Route path={"/flightplans/new"} exact component={CreateFlightplan} />
