@@ -1,6 +1,6 @@
 from flask import render_template, request, abort, jsonify, g
 from npserver import app, models, db, auth
-from npserver.decorators import with_db_session
+from npserver.decorators import with_db_session, token_required
 
 
 @app.route('/auth/users/new', methods=['POST'])
@@ -20,9 +20,10 @@ def newuser(session):
 
 
 @app.route('/test')
-@auth.login_required
+# @auth.login_required
+@token_required
 def get_resource():
-    return jsonify({'data': f'Hello {g.user.callsign}'})
+    return jsonify({'data': f'Hello'})
 
 @app.route('/api/v1/auth/currentuser')
 @auth.login_required

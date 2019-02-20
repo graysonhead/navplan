@@ -28,6 +28,6 @@ with app.test_request_context():
 # api = Api(app, blueprint=(Blueprint('api', __name__, url_prefix='/api')))
 api_manager = flask_restless.APIManager(app, flask_sqlalchemy_db=db)
 
-from npserver import views, views_api
+from npserver import views, views_api, error_handlers
 
 # api.init_app(app)
