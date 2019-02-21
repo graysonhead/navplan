@@ -28,10 +28,10 @@ export const logInUser = (formValues) => async dispatch => {
     const auth_object = {
       username: formValues.email,
       password: formValues.password};
-    const response = await navplan.get('/auth/currentuser', {auth: auth_object, headers: {Authorization: 'blahblsdfah'}});
+    const response = await navplan.post('/auth/login', auth_object);
     dispatch({ type: SIGN_IN, payload: response.data});
     console.log(response);
-    const token_resp = await navplan.get('/auth/token', {auth: auth_object});
+    const token_resp = await navplan.post('/auth/token', auth_object);
     Cookies.set('token', token_resp.data.token, { path: '', expires: 1 });
     // const cookie = Cookies.get();
     // console.log(cookie);

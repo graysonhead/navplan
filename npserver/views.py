@@ -1,6 +1,6 @@
 from flask import render_template, request, abort, jsonify, g
-from npserver import app, models, db, auth
-from npserver.decorators import with_db_session, token_required
+from npserver import app, models
+from npserver.decorators import with_db_session, token_required, token_or_auth
 
 
 @app.route('/auth/users/new', methods=['POST'])
@@ -25,27 +25,18 @@ def newuser(session):
 def get_resource():
     return jsonify({'data': f'Hello'})
 
-@app.route('/api/v1/auth/currentuser')
-@auth.login_required
-def get_current_user():
+
+@app.route('/api/v1/auth/login', methods=['POST'])
+@token_or_auth
+def login_user():
     return jsonify(g.user.as_dict())
 
-@app.route('/api/v1/auth/token')
-@auth.login_required
+
+@app.route('/api/v1/auth/token', methods=['POST'])
+@token_or_auth
 def get_auth_token():
     token = g.user.generate_auth_token()
     return jsonify({'token': token.decode('ascii')})
-
-@auth.verify_password
-def verify_password(email_or_token, password):
-    user = models.User.verify_auth_token(email_or_token)
-    if not user:
-        user = db.session.query(models.User).filter_by(email=email_or_token).first()
-        if not user or not user.check_password(password):
-            return False
-    g.user = user
-    return True
-
 
 
 @app.route('/', defaults={'path': ''}, methods=['GET'])
