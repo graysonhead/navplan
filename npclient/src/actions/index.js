@@ -1,5 +1,4 @@
 import navplan from '../apis/navplan';
-import {TEMPORARY_TESTING_UID} from '../index';
 import arrayMove from 'array-move';
 import Cookies from 'js-cookie';
 import {
@@ -21,8 +20,7 @@ import {
     CLEAR_MESSAGES
 } from "../reducers/types";
 import history from "../history";
-const uid = TEMPORARY_TESTING_UID;
-
+export var CURRENT_UID = null;
 
 export const logInUser = (formValues) => async dispatch => {
     const auth_object = {
@@ -35,6 +33,7 @@ export const logInUser = (formValues) => async dispatch => {
     Cookies.set('token', token_resp.data.token, { path: '', expires: 1 });
     // const cookie = Cookies.get();
     // console.log(cookie);
+    CURRENT_UID = response.data.id;
     dispatch({ type: GET_TOKEN, payload: token_resp.data.token});
     if (response.status === 200) {
         dispatch({ type: ADD_MESSAGE, payload: {text: "You have logged in", emphasis: 'positive', title: "Logged in"}})
@@ -58,16 +57,16 @@ export const logOutUser = (redirectUrl) => dispatch => {
     }
 };
 
-export const createFlightPlan = (formValues, redirectUrl) => async dispatch => {
-    const response = await navplan.post('/flightplans', { ...formValues, owner_id: uid });
+export const createFlightPlan = (formValues, token, redirectUrl) => async dispatch => {
+    const response = await navplan.post('/flightplans', { ...formValues});
     dispatch({ type: CREATE_FLIGHTPLAN, payload: response.data});
     if (redirectUrl) {
         history.push(redirectUrl);
     }
 };
 
-export const fetchFlightPlans = () => async dispatch => {
-    const response = await navplan.get(`/flightplans?search={"name":"owner_id","op":"eq","val":"${uid}"}`);
+export const fetchFlightPlans = (uid) => async dispatch => {
+    const response = await navplan.get(`/flightplans?q={"filters":[{"name":"owner_id","op":"eq","val":"${uid}"}]}`);
 
     dispatch({ type: FETCH_FLIGHTPLANS, payload: response.data.objects });
 };

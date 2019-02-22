@@ -2,10 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { fetchFlightPlans } from "../actions";
+import { CURRENT_UID } from "../actions";
 
 class ListFlightplans extends React.Component {
     componentDidMount() {
-        this.props.fetchFlightPlans();
+        this.props.fetchFlightPlans(this.props.match.params.id);
     }
 
     renderList() {
@@ -41,6 +42,7 @@ class ListFlightplans extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
+        user: state.auth.user,
         flightPlans: Object.values(state.flightPlans)
     }
 

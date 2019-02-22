@@ -24,7 +24,7 @@ const App = () => {
                         <Route path={"/"} exact component={Home} />
                         <Route path={"/flightplans/new"} exact component={CreateFlightplan} />
                         <Route path={"/flightplans/:id"} exact component={ShowFlightPlan} />
-                        <Route path={"/flightplans"} exact component={ListFlightplans} />
+                        <Route path={"/flightplans/list/:id"} exact component={ListFlightplans} />
                         <Route path={"/flightplans/delete/:id"} exact component={DeleteFlightPlans} />
                         <Route path={"/flightplans/:id/newsteerpoint"} exact component={NewSteerpoint} />
                         <Route path={"/coordinates/:id/delete"} exact component={DeleteCoordinate} />
