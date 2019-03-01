@@ -6,13 +6,3 @@ const navplanapi = axios.create({
     baseURL: `${protocol}//${hostname}:${port}/api/v1/`
 });
 export default navplanapi
-
-// class NpAPI {
-//     api = this.create_anon_api();
-//
-//     create_anon_api = () => axios.create({
-//         baseURL: `${protocol}//${hostname}:${port}/api/v1/`
-//     });
-//
-//
-// }

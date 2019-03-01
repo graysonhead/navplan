@@ -1,6 +1,6 @@
 from flask import jsonify
 
-class Unauthorized(Exception):
+class ApiError(Exception):
     status_code = 401
 
     def __init__(self, message, status_code=None, payload=None):

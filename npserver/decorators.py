@@ -1,6 +1,6 @@
 from functools import wraps
 from npserver import db, models
-from npserver.api_exceptions import Unauthorized
+from npserver.api_exceptions import ApiError
 from flask import request, g, Response
 
 
@@ -27,7 +27,7 @@ def token_required(func):
             g.user = user
             if g.user:
                 return func(*args, **kwargs)
-        raise Unauthorized("You need to authenticate to make this request", status_code=401)
+        raise ApiError("You need to authenticate to make this request", status_code=401)
     return inner
 
 
@@ -40,15 +40,15 @@ def token_or_auth(func):
             if data.get('username') and data.get('password'):
                 user = db.session.query(models.User).filter_by(email=data.get('username')).first()
                 if not user or not user.check_password(data.get('password')):
-                    raise Unauthorized("Login information incorrect", status_code=401)
+                    raise ApiError("Login information incorrect", status_code=401)
             else:
-                raise Unauthorized("You must supply a username and password for login", status_code=401)
+                raise ApiError("You must supply a username and password for login", status_code=401)
         elif auth:
             user = models.User.verify_auth_token(auth)
             if not user:
-                raise Unauthorized("Token invalid or expired", status_code=401)
+                raise ApiError("Token invalid or expired", status_code=401)
         else:
-            raise Unauthorized("You need to supply login credentials or a token to make this request", status_code=401)
+            raise ApiError("You need to supply login credentials or a token to make this request", status_code=401)
         g.user = user
         return func(*args, **kwargs)
     return inner

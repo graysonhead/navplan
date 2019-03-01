@@ -44,7 +44,6 @@ class SteerpointCard extends React.Component {
 
     onTypeChange = (e, { value }) => {
         const data = { steerpoint_type: value};
-        console.log(value);
         this.props.editCoordinate(this.props.coordinate.id, data);
     };
     renderMoveUp() {
