@@ -1,0 +1,2 @@
+graft npclient/public
+global-exclude *.pyc
