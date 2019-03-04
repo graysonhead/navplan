@@ -1,10 +1,11 @@
-from setuptools import setup, find_namespace_packages
+from setuptools import setup, find_packages
 
 
 setup(
     name='npserver',
     version='1.0.0',
-    packages=find_namespace_packages(include=['npserver.*']),
+    packages=find_packages(),
+    # packages=find_namespace_packages(include=['npserver.*']),
     include_package_data=True,
     zip_safe=False,
     install_requires=[
