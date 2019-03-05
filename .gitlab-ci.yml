@@ -1,12 +1,14 @@
 image: docker:latest
 services:
-- docker:dind
+    - docker:dind
 
 stages:
   - build
 
 variables:
   TEST_IMAGE: code.graysonhead.net:5555/sammy/hello_hapi:$CI_COMMIT_REF_NAME
+  DOCKER_HOST: tcp://docker:2375/
+  DOCKER_DRIVER: overlay2
 
 before_script:
   - sudo docker login -u gitlab-ci-token -p $CI_JOB_TOKEN code.graysonhead.net:5555
