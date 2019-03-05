@@ -9,7 +9,6 @@ variables:
   TEST_IMAGE: code.graysonhead.net:5555/sammy/hello_hapi:$CI_COMMIT_REF_NAME
 
 before_script:
-  - systemctl start docker
   - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN code.graysonhead.net:5555
 
 build:
