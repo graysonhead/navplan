@@ -1,2 +1,2 @@
-graft npclient/public
+graft npserver/npclient/public
 global-exclude *.pyc
