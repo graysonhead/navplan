@@ -11,10 +11,10 @@ variables:
   DOCKER_DRIVER: overlay2
 
 before_script:
-  - sudo docker login -u gitlab-ci-token -p $CI_JOB_TOKEN code.graysonhead.net:5555
+  - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN code.graysonhead.net:5555
 
 build:
   stage: build
   script:
-    - sudo docker build --pull -t $TEST_IMAGE .
+    - docker build --pull -t $TEST_IMAGE .
 
