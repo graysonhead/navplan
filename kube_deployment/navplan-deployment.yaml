@@ -1,0 +1,44 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: navplan-npserver
+  labels:
+    app: navplan
+spec:
+  ports:
+    - port: 5000
+  selector:
+    app: navplan
+    tier: frontend
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: navplan-npserver
+  labels:
+    app: navplan
+spec:
+  selector:
+    matchLabels:
+      app: navplan
+      tier: frontend
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: navplan
+        tier: frontend
+    spec:
+      containers:
+      - image: code.graysonhead.net:5555/graysonhead/navplan:master
+        name: npserver
+        env:
+        - name: SQLALCHEMY_DATABASE_URI
+          value: 'mysql://NavPlan67SREDF:f3efsaef@navplan-mysql:3306/navplan'
+        ports:
+          - containerPort: 5000
+            name: npserver
+      imagePullSecrets:
+        - name: gitlab-auth

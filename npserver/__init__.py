@@ -15,8 +15,7 @@ app.config.from_object('config')
 # Setup DB ORM
 db = SQLAlchemy(app)
 db.init_app(app)
-with app.test_request_context():
-    db.create_all()
+db.create_all()
 
 # Set up API
 api_manager = flask_restless.APIManager(app, flask_sqlalchemy_db=db)
