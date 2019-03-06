@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 # from flask_login import LoginManager
 import flask_restless
 import config
-
+from flask_env import MetaFlaskEnv
 
 # Initialize flask app
 app = Flask(__name__,
@@ -13,6 +13,7 @@ app = Flask(__name__,
 app.config.from_object('config')
 
 # Setup DB ORM
+print("Starting database")
 db = SQLAlchemy(app)
 db.init_app(app)
 db.create_all()

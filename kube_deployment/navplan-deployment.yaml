@@ -35,7 +35,7 @@ spec:
       - image: code.graysonhead.net:5555/graysonhead/navplan:master
         name: npserver
         env:
-        - name: SQLALCHEMY_DATABASE_URI
+        - name: NP_DATABASE_URI
           value: 'mysql://NavPlan67SREDF:f3efsaef@navplan-mysql:3306/navplan'
         ports:
           - containerPort: 5000
