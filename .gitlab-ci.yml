@@ -1,11 +1,16 @@
 image: docker:latest
+
 services:
-- docker:dind
+  - docker:dind
+
 
 stages:
   - build
 
+
 variables:
+  DOCKER_DRIVER: overlay2
+  DOCKER_HOST: tcp://localhost:2375
   TEST_IMAGE: code.graysonhead.net:5555/graysonhead/navplan:$CI_COMMIT_REF_NAME
 
 
@@ -14,6 +19,7 @@ before_script:
 
 build:
   stage: build
+  image: docker:dind
   script:
     - docker build --pull -t $TEST_IMAGE .
     - docker push $TEST_IMAGE
