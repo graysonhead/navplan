@@ -1,9 +1,7 @@
 from flask import Flask, Blueprint
 from flask_sqlalchemy import SQLAlchemy
-# from flask_login import LoginManager
 import flask_restless
 import config
-from flask_env import MetaFlaskEnv
 
 # Initialize flask app
 app = Flask(__name__,
