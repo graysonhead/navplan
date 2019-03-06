@@ -6,7 +6,8 @@ stages:
   - build
 
 variables:
-  TEST_IMAGE: code.graysonhead.net:5555/sammy/hello_hapi:$CI_COMMIT_REF_NAME
+  TEST_IMAGE: code.graysonhead.net:5555/graysonhead/navplan:$CI_COMMIT_REF_NAME
+
 
 before_script:
   - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN code.graysonhead.net:5555
@@ -15,4 +16,4 @@ build:
   stage: build
   script:
     - docker build --pull -t $TEST_IMAGE .
-
+    - docker push $TEST_IMAGE
