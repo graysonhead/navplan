@@ -67,7 +67,8 @@ export const logOutUser = (redirectUrl) => dispatch => {
 
 export const createFlightPlan = (formValues, token, redirectUrl) => async (dispatch, getState) => {
     const {auth} = getState();
-    const response = await navplan.post('/flightplans', { ...formValues});
+    const auth_headers = getAuthHeaders(auth);
+    const response = await navplan.post('/flightplans', { ...formValues}, { headers: { ...auth_headers } });
     dispatch({ type: CREATE_FLIGHTPLAN, payload: response.data});
     if (redirectUrl) {
         history.push(redirectUrl);

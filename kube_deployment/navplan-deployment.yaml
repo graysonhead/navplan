@@ -32,7 +32,7 @@ spec:
         tier: frontend
     spec:
       containers:
-      - image: code.graysonhead.net:5555/graysonhead/navplan:master
+      - image: code.graysonhead.net:5555/graysonhead/navplan:1.0.1
         name: npserver
         env:
         - name: NP_DATABASE_URI
