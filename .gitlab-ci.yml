@@ -11,8 +11,7 @@ stages:
 variables:
   DOCKER_DRIVER: overlay2
   DOCKER_HOST: tcp://localhost:2375
-  TEST_IMAGE: code.graysonhead.net:5555/graysonhead/navplan:$CI_COMMIT_SHORT_SHA
-#$CI_COMMIT_REF_NAME
+  TEST_IMAGE: code.graysonhead.net:5555/graysonhead/navplan:$CI_COMMIT_REF_NAME
 
 
 before_script:
