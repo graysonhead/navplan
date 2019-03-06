@@ -32,11 +32,11 @@ spec:
         tier: frontend
     spec:
       containers:
-      - image: code.graysonhead.net:5555/graysonhead/navplan:1.0.1
+      - image: code.graysonhead.net:5555/graysonhead/navplan:1.0.3
         name: npserver
         env:
         - name: NP_DATABASE_URI
-          value: 'mysql://NavPlan67SREDF:f3efsaef@navplan-mysql:3306/navplan'
+          value: "mysql://NavPlan67SREDF:f3efsaef@navplan-mysql:3306/navplan"
         ports:
           - containerPort: 5000
             name: npserver
