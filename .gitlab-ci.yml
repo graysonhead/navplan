@@ -28,6 +28,7 @@ build:
     - docker push $TEST_IMAGE
 
 deploy-dev:
+  stage: deploy-dev
   only:
     - development
   image: lwolf/helm-kubectl-docker:v1.10.13-v2.12.3
