@@ -13,7 +13,7 @@ variables:
   DOCKER_DRIVER: overlay2
   DOCKER_HOST: tcp://localhost:2375
   TEST_IMAGE: code.graysonhead.net:5555/graysonhead/navplan:$CI_COMMIT_REF_NAME
-  KUBECONFIG: ~/.kube/config
+  KUBECONFIG: /etc/deploy/config
 
 
 before_script:
@@ -33,7 +33,8 @@ deploy-dev:
     - development
   image: lwolf/helm-kubectl-docker:v1.10.13-v2.12.3
   before_script:
-    - mkdir -p ~/.kube
+    - mkdir -p /etc/deploy
+    - export KUBECONFIG=${KUBECONFIG}
     - echo ${kube_config} | base64 -d > ${KUBECONFIG}
   script:
     - kubectl get nodes
