@@ -40,4 +40,4 @@ deploy-dev:
     - kubectl get nodes
 #    - sed s/\%ImageUri/${IMAGE_URI}/g' ./kube_deployment/navplan-deployment.yaml
 #    - kubectl apply -f ./kube_deployment/navplan-deployment.yaml --kubeconfig=${KUBECONFIG} --namespace=default
-    - sed "s/\%ImageUri/$IMAGE_URI/g" ./kube_deployment/navplan-deployment.yaml | kubectl apply --kubeconfig=${KUBECONFIG} --namespace=default -f -
+    - sed "s@\%ImageUri@'"$IMAGE_URI"'@g" ./kube_deployment/navplan-deployment.yaml | kubectl apply --kubeconfig=${KUBECONFIG} --namespace=default -f -
