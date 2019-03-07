@@ -12,7 +12,7 @@ stages:
 variables:
   DOCKER_DRIVER: overlay2
   DOCKER_HOST: tcp://localhost:2375
-  TEST_IMAGE: code.graysonhead.net:5555/graysonhead/navplan:$CI_COMMIT_REF_NAME
+  IMAGE_URI: code.graysonhead.net:5555/graysonhead/navplan:$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA
   KUBECONFIG: /etc/deploy/config
 
 
@@ -24,7 +24,7 @@ build:
   image: docker:dind
   script:
     - docker build --pull -t $TEST_IMAGE .
-    - docker push $TEST_IMAGE
+    - docker push $IMAGE_URI
 
 deploy-dev:
   stage: deploy-dev
@@ -37,4 +37,5 @@ deploy-dev:
     - echo ${kube_config} | base64 -d > ${KUBECONFIG}
   script:
     - kubectl get nodes
+    - sed -i s/\%ImageUri/${IMAGE_URI}/g' ./kube_deployment/navplan-deployment.yaml
     - kubectl apply -f ./kube_deployment/navplan-deployment.yaml --kubeconfig=${KUBECONFIG} --namespace=default
