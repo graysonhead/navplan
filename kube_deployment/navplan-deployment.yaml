@@ -36,7 +36,7 @@ spec:
         name: npserver
         env:
         - name: NP_DATABASE_URI
-          value: "mysql://NavPlan67SREDF:f3efsaef@navplan-mysql:3306/navplan"
+          value: "mysql+pymysql://NavPlan67SREDF:f3efsaef@navplan-mysql:3306/navplan"
         ports:
           - containerPort: 5000
             name: npserver
