@@ -20,7 +20,6 @@ before_script:
   - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN code.graysonhead.net:5555
 
 build:
-  only: [tags]
   stage: build
   image: docker:dind
   script:
@@ -29,6 +28,8 @@ build:
 
 deploy-dev:
   stage: deploy-dev
+  only:
+    - development
   image: lwolf/helm-kubectl-docker:v1.10.13-v2.12.3
   before_script:
     - mkdir -p /etc/deploy
