@@ -37,4 +37,4 @@ deploy-dev:
     - echo ${kube_config} | base64 -d > ${KUBECONFIG}
   script:
     - kubectl get nodes
-    - kubectl apply -f ./kube_deployment/navplan-deployment.yaml --kubeconfig=${KUBECONFIG}
+    - kubectl apply -f ./kube_deployment/navplan-deployment.yaml --kubeconfig=${KUBECONFIG} --namespace=default
