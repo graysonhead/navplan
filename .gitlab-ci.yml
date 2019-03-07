@@ -29,8 +29,6 @@ build:
 
 deploy-dev:
   stage: deploy-dev
-  only:
-    - development
   image: lwolf/helm-kubectl-docker:v1.10.13-v2.12.3
   before_script:
     - mkdir -p /etc/deploy
