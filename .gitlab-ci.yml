@@ -12,7 +12,7 @@ stages:
 variables:
   DOCKER_DRIVER: overlay2
   DOCKER_HOST: tcp://localhost:2375
-  IMAGE_URI: code.graysonhead.net:5555/graysonhead/navplan:$CI_COMMIT_SHORT_SHA
+  IMAGE_URI: code.graysonhead.net:5555/graysonhead/navplan:$CI_COMMIT_SHA
   KUBECONFIG: /etc/deploy/config
 
 
