@@ -38,5 +38,6 @@ deploy-dev:
     - echo ${kube_config} | base64 -d > ${KUBECONFIG}
   script:
     - kubectl get nodes
-    - sed -i s/\%ImageUri/${IMAGE_URI}/g' ./kube_deployment/navplan-deployment.yaml
-    - kubectl apply -f ./kube_deployment/navplan-deployment.yaml --kubeconfig=${KUBECONFIG} --namespace=default
+#    - sed s/\%ImageUri/${IMAGE_URI}/g' ./kube_deployment/navplan-deployment.yaml
+#    - kubectl apply -f ./kube_deployment/navplan-deployment.yaml --kubeconfig=${KUBECONFIG} --namespace=default
+    - sed "s/\%ImageUri/${IMAGE_URI}/g' ./kube_deployment/navplan-deployment.yaml | kubectl apply --kubeconfig=${KUBECONFIG} --namespace=default -f -
