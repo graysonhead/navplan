@@ -6,12 +6,14 @@ services:
 
 stages:
   - build
+  - deploy-dev
 
 
 variables:
   DOCKER_DRIVER: overlay2
   DOCKER_HOST: tcp://localhost:2375
   TEST_IMAGE: code.graysonhead.net:5555/graysonhead/navplan:$CI_COMMIT_REF_NAME
+  KUBECONFIG: ~/.kube/config
 
 
 before_script:
@@ -24,3 +26,13 @@ build:
   script:
     - docker build --pull -t $TEST_IMAGE .
     - docker push $TEST_IMAGE
+
+deploy-dev:
+  only:
+    - development
+  image: lwolf/helm-kubectl-docker:v1.10.13-v2.12.3
+  before_script:
+    - mkdir -p ~/.kube
+    - echo ${kube_config} | base64 -d > ${KUBECONFIG}
+  script:
+    - kubectl get nodes
