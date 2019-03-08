@@ -11,16 +11,15 @@ from itsdangerous import TimedJSONWebSignatureSerializer as Serializer, \
 class User(db.Model):
     __tablename__ = "user"
     id = Column(Integer, primary_key=True)
-    g_auth_id = Column(String)
+    g_auth_id = Column(String(120))
     flightplans = relationship("FlightPlan", back_populates="owner")
-    callsign = Column(String(120), unique=True)
+    callsign = Column(String(120))
     email = Column(String(120), unique=True)
     password = Column(String(120))
     created_date = Column(DateTime, server_default=func.now())
 
-    def __init__(self, callsign=None, password=None, email=None):
-        self.callsign = callsign
-        self.email = email
+    def __init__(self, password=password, **kwargs):
+        super(User, self).__init__(**kwargs)
         if password:
             self.set_password(password)
 
@@ -82,7 +81,7 @@ class User(db.Model):
 class FlightPlan(db.Model):
     __tablename__ = "flightplan"
     id = Column(Integer, primary_key=True)
-    name = Column(String)
+    name = Column(String(120))
     owner_id = Column(Integer, ForeignKey('user.id'))
     owner = relationship("User", back_populates="flightplans")
     steerpoints = relationship("Coordinate",
@@ -103,4 +102,22 @@ class Coordinate(db.Model):
     markpoint_flightplan = relationship("FlightPlan", foreign_keys=[fp_markpoint_id])
     latitude = Column(Float)
     longitude = Column(Float)
-    steerpoint_type = Column(String)
+    steerpoint_type = Column(String(120))
+
+print("Creating DB")
+db.create_all()
+
+if app.config["ADMIN_USER"] and app.config["ADMIN_PASS"]:
+    s = db.session()
+    old_user = s.query(User).filter_by(email=app.config["ADMIN_USER"]).first()
+    if old_user:
+        print(f"Updating admin user {app.config['ADMIN_USER']}")
+        old_user.email=app.config['ADMIN_USER']
+        old_user.set_password(app.config['ADMIN_PASS'])
+        s.add(old_user)
+    else:
+        print(f"Creating admin user {app.config['ADMIN_USER']}")
+        u = User(callsign="admin", email=app.config["ADMIN_USER"], password=app.config["ADMIN_PASS"])
+        s.add(u)
+    s.commit()
+
