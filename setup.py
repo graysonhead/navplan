@@ -13,7 +13,8 @@ setup(
         'flask-sqlalchemy',
         'flask-restless',
         'sqlalchemy-migrate',
-        'pymysql'
+        'pymysql',
+        'sqlalchemy-utils'
     ]
 
 )
