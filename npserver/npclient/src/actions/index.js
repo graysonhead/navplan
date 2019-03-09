@@ -23,6 +23,14 @@ import {
 import history from "../history";
 export var CURRENT_UID = null;
 
+navplan.interceptors.response.use(response => {
+    return response;
+}, error => {
+    if (error.response.status === 401) {
+        return error;
+    }
+});
+
 const getAuthHeaders = (authObj) => {
     if (authObj.isSignedIn) {
         return { Authorization: authObj.authToken }
@@ -37,13 +45,18 @@ export const logInUser = (formValues) => async (dispatch, getState) => {
       username: formValues.email,
       password: formValues.password};
     const response = await navplan.post('/auth/login', auth_object);
-    dispatch({ type: SIGN_IN, payload: response.data});
-    const token_resp = await navplan.post('/auth/token', auth_object);
-    Cookies.set('token', token_resp.data.token, { path: '', expires: 1 });
-    CURRENT_UID = response.data.id;
-    dispatch({ type: GET_TOKEN, payload: token_resp.data.token});
+
     if (response.status === 200) {
+            dispatch({ type: SIGN_IN, payload: response.data});
+        const token_resp = await navplan.post('/auth/token', auth_object);
+        Cookies.set('token', token_resp.data.token, { path: '', expires: 1 });
+        CURRENT_UID = response.data.id;
+        dispatch({ type: GET_TOKEN, payload: token_resp.data.token});
         dispatch({ type: ADD_MESSAGE, payload: {text: "You have logged in", emphasis: 'positive', title: "Logged in"}})
+    } else {
+        dispatch({ type: ADD_MESSAGE, payload: {text: `${response.response.data.message}`,
+                emphasis: 'negative',
+                title: "Error"}});
     }
 };
 
@@ -65,14 +78,28 @@ export const logOutUser = (redirectUrl) => dispatch => {
     }
 };
 
-export const createFlightPlan = (formValues, token, redirectUrl) => async (dispatch, getState) => {
+const error_handler = (response) => {
+    if (response.status > 199 && response.status < 300) {
+        return response;
+    } else {
+
+    }
+};
+
+export const createFlightPlan = (formValues, redirectUrl) => async (dispatch, getState) => {
     const {auth} = getState();
     const auth_headers = getAuthHeaders(auth);
     const response = await navplan.post('/flightplans', { ...formValues}, { headers: { ...auth_headers } });
-    dispatch({ type: CREATE_FLIGHTPLAN, payload: response.data});
-    if (redirectUrl) {
+    if (response.status > 199 && response.status < 300) {
+        dispatch({ type: CREATE_FLIGHTPLAN, payload: response.data});
         history.push(redirectUrl);
+    } else {
+        dispatch({ type: ADD_MESSAGE, payload: {text: `Something went wrong: ${response.response.data.message}`,
+                emphasis: 'negative',
+                title: "Error"}});
+        history.push('/login');
     }
+
 };
 
 export const fetchFlightPlans = (uid) => async (dispatch, getState) => {

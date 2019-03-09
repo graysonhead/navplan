@@ -17,11 +17,10 @@ app.config["SECRET_KEY"] = 'n23th9sn1nlsd97934v09g'
 
 db_test = os.environ.get("NP_DATABASE_SQLITE")
 db_uri = os.environ.get("NP_DATABASE_URI")
-if db_uri:
-    if db_test:
-        app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'app.db?check_same_thread=False')
-    else:
-        app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
+if db_test:
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'app.db?check_same_thread=False')
+elif db_uri and not db_test:
+    app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
 else:
     raise SyntaxError("You must specify a database URI")
 
