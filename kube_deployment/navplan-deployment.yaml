@@ -36,9 +36,9 @@ spec:
         name: npserver
         env:
         - name: NP_ADMIN_USER
-          value: admin
+          value: test
         - name: NP_ADMIN_PASS
-          value: Bushmaster67
+          value: nptest
         - name: NP_DATABASE_URI
           value: "mysql+pymysql://root:password@navplan-mysql:3306/navplan"
         ports:

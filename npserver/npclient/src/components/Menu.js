@@ -7,10 +7,10 @@ import Cookies from 'js-cookie';
 class Menu extends React.Component {
 
     componentDidMount() {
-        // const token = Cookies.get('token');
-        // if (token) {
-        //     this.props.logInWithCookie(token);
-        // }
+        const token = Cookies.get('token');
+        if (token) {
+            this.props.logInWithCookie(token);
+        }
     }
 
     renderCallsign() {
