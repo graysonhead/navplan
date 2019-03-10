@@ -62,21 +62,29 @@ export const logInUser = (formValues) => async (dispatch, getState) => {
 };
 
 export const logInWithCookie = (token) => async dispatch => {
-    const auth_object ={
-        username: token,
-        password: 'unused'
-    };
-    const response = await navplan.get('/auth/currentuser', {auth: auth_object});
-    dispatch({ type: SIGN_IN, payload: response.data });
+    const auth_obj = { headers: { Authorization: token } };
+    const response = await navplan.post('/auth/login', {}, auth_obj);
+    if (response.status === 200) {
+        dispatch({ type: SIGN_IN, payload: response.data });
+        const token_resp = await navplan.post('/auth/token', {}, auth_obj);
+        dispatch({ type: GET_TOKEN, payload: token_resp.data.token});
+        Cookies.set('token', token_resp.data.token, { path: '', expires: 1 });
+    } else {
+        dispatch({ type: ADD_MESSAGE, payload: {
+            text: "Your session has expired, please log in again",
+                emphasis: 'positive',
+                title: "Error"
+            }});
+        history.push('/login');
+    }
+
 };
 
-export const logOutUser = (redirectUrl) => dispatch => {
+export const logOutUser = () => dispatch => {
     dispatch({ type: SIGN_OUT, payload: null});
     Cookies.remove('token', { path: ''});
     api = client(null);
-    if (redirectUrl) {
-        history.push(redirectUrl);
-    }
+    history.push('/');
 };
 
 const error_handler = (response) => {

@@ -36,18 +36,17 @@ def token_or_auth(func):
     def inner(*args, **kwargs):
         auth = request.headers.get('Authorization')
         data = request.json
+        user = None
         if isinstance(data, dict):
             if data.get('username') and data.get('password'):
                 user = db.session.query(models.User).filter_by(email=data.get('username')).first()
                 if not user or not user.check_password(data.get('password')):
                     raise ApiError("Login information incorrect", status_code=401)
-            else:
-                raise ApiError("You must supply a username and password for login", status_code=401)
-        elif auth:
+        if auth:
             user = models.User.verify_auth_token(auth)
             if not user:
                 raise ApiError("Token invalid or expired", status_code=401)
-        else:
+        if not user:
             raise ApiError("You need to supply login credentials or a token to make this request", status_code=401)
         g.user = user
         return func(*args, **kwargs)

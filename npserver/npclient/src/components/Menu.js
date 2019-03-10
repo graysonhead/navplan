@@ -7,10 +7,10 @@ import Cookies from 'js-cookie';
 class Menu extends React.Component {
 
     componentDidMount() {
-        // const token = Cookies.get('token');
-        // if (token) {
-        //     this.props.logInWithCookie(token);
-        // }
+        const token = Cookies.get('token');
+        if (token) {
+            this.props.logInWithCookie(token);
+        }
     }
 
     renderCallsign() {
@@ -24,14 +24,14 @@ class Menu extends React.Component {
     }
 
     onLogOut() {
-        this.props.logOutUser()
+        this.props.logOutUser();
     }
 
     renderLogout() {
         if (this.props.auth.isSignedIn) {
             return (
                 <div className={"ui item"}>
-                    <Link to={"/"} onClick={this.onLogOut}>Logout</Link>
+                    <Link to={"/"} onClick={this.props.logOutUser}>Logout</Link>
                 </div>
             )
         }
