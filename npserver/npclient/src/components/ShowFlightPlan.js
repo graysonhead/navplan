@@ -30,6 +30,23 @@ class ShowFlightPlan extends React.Component {
         }
     }
 
+    renderCreateSteerpointButton() {
+        if (this.props.auth.isSignedIn) {
+            if (this.props.auth.user.id === this.props.flightPlan.owner_id) {
+                return (
+                    <Button primary
+                        onClick={() => history.push({
+                                pathname: `/flightplans/${this.props.flightPlan.id}/newsteerpoint`
+                            })}
+                        >
+                            <Icon name={'plus square'}/>Create Steerpoint
+                    </Button>
+                )
+            }
+        }
+
+    }
+
     renderSteerpoints() {
         const steerpoint_array = _.values(this.props.coordinates).filter(item => item.fp_steerpoint_id == this.props.match.params.id);
         const sorted_steerpoints = _.orderBy(steerpoint_array, 'order', 'asc');
@@ -52,6 +69,7 @@ class ShowFlightPlan extends React.Component {
                 coord_id={steerpoint.id}
                 first={first_steerpoint}
                 last={last_steerpoint}
+                fp_owner={this.props.flightPlan.owner_id}
             />
         })
     };
@@ -111,13 +129,7 @@ class ShowFlightPlan extends React.Component {
                     {this.renderSteerpoints()}
                 </div>
                 <div className={"ui right floated"}>
-                    <Button primary
-                    onClick={() => history.push({
-                            pathname: `/flightplans/${this.props.flightPlan.id}/newsteerpoint`
-                        })}
-                    >
-                        <Icon name={'plus square'}/>Create Steerpoint
-                    </Button>
+                    {this.renderCreateSteerpointButton()}
                 </div>
             </div>
         )
@@ -127,7 +139,8 @@ class ShowFlightPlan extends React.Component {
 const mapStateToProps = (state, ownProps) => {
     return {
         flightPlan: state.flightPlans[ownProps.match.params.id],
-        coordinates: state.coordinates
+        coordinates: state.coordinates,
+        auth: state.auth
     };
 };
 

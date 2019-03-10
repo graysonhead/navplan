@@ -53,6 +53,7 @@ export const logInUser = (formValues) => async (dispatch, getState) => {
         CURRENT_UID = response.data.id;
         dispatch({ type: GET_TOKEN, payload: token_resp.data.token});
         dispatch({ type: ADD_MESSAGE, payload: {text: "You have logged in", emphasis: 'positive', title: "Logged in"}})
+        history.push(`/flightplans/list/${response.data.id}`);
     } else {
         dispatch({ type: ADD_MESSAGE, payload: {text: `${response.response.data.message}`,
                 emphasis: 'negative',
@@ -92,7 +93,7 @@ export const createFlightPlan = (formValues, redirectUrl) => async (dispatch, ge
     const response = await navplan.post('/flightplans', { ...formValues}, { headers: { ...auth_headers } });
     if (response.status > 199 && response.status < 300) {
         dispatch({ type: CREATE_FLIGHTPLAN, payload: response.data});
-        history.push(redirectUrl);
+        history.push(`/flightplans/list/${auth.user.id}`);
     } else {
         dispatch({ type: ADD_MESSAGE, payload: {text: `Something went wrong: ${response.response.data.message}`,
                 emphasis: 'negative',
