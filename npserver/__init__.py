@@ -13,7 +13,14 @@ app = Flask(__name__,
             static_folder='./npclient/public',
             static_url_path='/static')
 
+dirname = os.path.dirname(__file__)
+
 app.config["SECRET_KEY"] = 'n23th9sn1nlsd97934v09g'
+with open(os.path.join(dirname, 'VERSION'), 'r') as file:
+    version = file.read()
+
+app.config["VERSION"] = version
+print(f"App version: {version}")
 
 db_test = os.environ.get("NP_DATABASE_SQLITE")
 db_uri = os.environ.get("NP_DATABASE_URI")

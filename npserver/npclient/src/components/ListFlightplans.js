@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { fetchFlightPlans } from "../actions";
+import { fetchFlightPlans, logInWithCookie } from "../actions";
 import { CURRENT_UID } from "../actions";
 
 class ListFlightplans extends React.Component {
@@ -48,4 +48,4 @@ const mapStateToProps = (state) => {
 
 };
 
-export default connect(mapStateToProps, { fetchFlightPlans })(ListFlightplans);
+export default connect(mapStateToProps, { fetchFlightPlans, logInWithCookie })(ListFlightplans);

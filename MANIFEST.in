@@ -1,2 +1,3 @@
 graft npserver/npclient/public
+include npserver/VERSION
 global-exclude *.pyc

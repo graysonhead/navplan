@@ -53,6 +53,14 @@ class Menu extends React.Component {
         }
     }
 
+    renderNewFlightplan() {
+        if (this.props.auth.isSignedIn) {
+            return (
+                <Link to={"/flightplans/new"} className={"item"}>New Flightplan</Link>
+            )
+        }
+    }
+
 
     render() {
         return (
@@ -60,8 +68,8 @@ class Menu extends React.Component {
               <div className="header item">
                   <Link to={"/"}>NavPlan.io</Link>
               </div>
-              <Link to={"/flightplans/new"} className={"item"}>New Flightplan</Link>
-            {this.renderListFlightplans()}
+                {this.renderNewFlightplan()}
+                {this.renderListFlightplans()}
               <div className={"right menu"}>
                   {this.renderCallsign()}
                   {this.renderLogout()}

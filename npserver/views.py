@@ -42,5 +42,5 @@ def get_auth_token():
 @app.route('/', defaults={'path': ''}, methods=['GET'])
 @app.route('/<path:path>')
 def index(path):
-    return render_template('index.html')
+    return render_template('index.html', version=app.config['VERSION'])
 

@@ -66,9 +66,7 @@ export const logInWithCookie = (token) => async dispatch => {
     const response = await navplan.post('/auth/login', {}, auth_obj);
     if (response.status === 200) {
         dispatch({ type: SIGN_IN, payload: response.data });
-        const token_resp = await navplan.post('/auth/token', {}, auth_obj);
-        dispatch({ type: GET_TOKEN, payload: token_resp.data.token});
-        Cookies.set('token', token_resp.data.token, { path: '', expires: 1 });
+        dispatch({ type: GET_TOKEN, payload: token});
     } else {
         dispatch({ type: ADD_MESSAGE, payload: {
             text: "Your session has expired, please log in again",
