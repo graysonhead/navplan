@@ -1,18 +1,19 @@
 from flask import render_template, request, abort, jsonify, g
 from npserver import app, models
+from npserver.api_exceptions import ApiError
 from npserver.decorators import with_db_session, token_required, token_or_auth
 
 
-@app.route('/auth/users/new', methods=['POST'])
+@app.route('/api/v1/auth/users/new', methods=['POST'])
 @with_db_session
 def newuser(session):
     callsign = request.json.get('callsign')
     email = request.json.get('email')
     password = request.json.get('password')
     if callsign is None or email is None or password is None:
-        abort(400)
-    if session.query(models.User).filter_by(callsign = callsign).first() is not None:
-        abort(400)
+        raise ApiError("A problem occured with your request", status_code=400)
+    if session.query(models.User).filter_by(email = email).first() is not None:
+        raise ApiError("A user with that e-mail already exists", status_code=400)
     user = models.User(callsign=callsign, email=email, password=password)
     session.add(user)
     session.commit()

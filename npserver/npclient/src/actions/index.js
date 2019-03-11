@@ -26,7 +26,7 @@ export var CURRENT_UID = null;
 navplan.interceptors.response.use(response => {
     return response;
 }, error => {
-    if (error.response.status === 401) {
+    if (error.response.status >= 400 && error.response.status < 600) {
         return error;
     }
 });
@@ -39,6 +39,21 @@ const getAuthHeaders = (authObj) => {
     }
 };
 
+export const createUser = (formValues) => async (dispatch) => {
+  const response = await navplan.post('/auth/users/new', formValues);
+  console.log(response);
+  if (response.status === 201) {
+      dispatch({ type: ADD_MESSAGE, payload: {text: "Log in with your account info to use the app",
+              emphasis: 'positive',
+              title: "User Created"
+      }});
+      history.push('/login');
+  } else {
+      dispatch({ type: ADD_MESSAGE, payload: {text: `${response.response.data.message}`,
+                emphasis: 'negative',
+                title: "Error"}});
+  }
+};
 
 export const logInUser = (formValues) => async (dispatch, getState) => {
     const auth_object = {

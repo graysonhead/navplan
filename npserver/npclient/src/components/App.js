@@ -10,6 +10,7 @@ import DeleteFlightPlans from "./DeleteFlightPlan";
 import ShowFlightPlan from "./ShowFlightPlan";
 import NewSteerpoint from "./NewSteerpoint";
 import DeleteCoordinate from "./DeleteCoordinate";
+import CreateUser from "./CreateUser";
 import Login from './Login';
 import Flash from './Flash';
 
@@ -29,6 +30,7 @@ const App = () => {
                         <Route path={"/flightplans/:id/newsteerpoint"} exact component={NewSteerpoint} />
                         <Route path={"/coordinates/:id/delete"} exact component={DeleteCoordinate} />
                         <Route path={"/login"} exact component component={Login} />
+                        <Route path={"/user/create"} exact component={CreateUser} />
                     </Switch>
                 </div>
             </Router>
