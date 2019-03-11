@@ -16,8 +16,12 @@ app = Flask(__name__,
 dirname = os.path.dirname(__file__)
 
 app.config["SECRET_KEY"] = 'n23th9sn1nlsd97934v09g'
-with open(os.path.join(dirname, 'VERSION'), 'r') as file:
-    version = file.read()
+if os.environ.get('NP_VERSION'):
+    version = os.environ.get('NP_VERSION')
+else:
+    version = "dev"
+# with open(os.path.join(dirname, 'VERSION'), 'r') as file:
+#     version = file.read()
 
 app.config["VERSION"] = version
 print(f"App version: {version}")
