@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { fetchFlightPlan, fetchDelCoordsFromFlightPlan } from "../actions";
 import { Button, Icon, Divider } from 'semantic-ui-react';
 import SteerpointCard from "./SteerpointCard";
+import FlightPlanMap from "./FlightPlanMap";
 import history from '../history';
 import queryString from 'query-string';
 
@@ -86,6 +87,9 @@ class ShowFlightPlan extends React.Component {
         return (
             <div>
                 <h3>{`FlightPlan: ${this.props.flightPlan.name}`}</h3>
+                <FlightPlanMap
+                    flightplan={this.props.flightPlan}
+                />
                 <div>
                     <Button.Group widths={5}>
                         <Button
