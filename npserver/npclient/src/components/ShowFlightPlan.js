@@ -37,7 +37,7 @@ class ShowFlightPlan extends React.Component {
                 return (
                     <Button primary
                         onClick={() => history.push({
-                                pathname: `/flightplans/${this.props.flightPlan.id}/newsteerpoint`
+                                pathname: `/app/flightplans/${this.props.flightPlan.id}/newsteerpoint`
                             })}
                         >
                             <Icon name={'plus square'}/>Create Steerpoint

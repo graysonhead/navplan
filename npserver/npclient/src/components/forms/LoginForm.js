@@ -50,7 +50,7 @@ class LoginForm extends React.Component {
                     <button className={"ui button primary"}>Login</button>
                     <Button primary
                         onClick={() => history.push({
-                                pathname: `/user/create`
+                                pathname: `/app/user/create`
                             })}
                         >
                             <Icon name={'plus square'}/>Create User

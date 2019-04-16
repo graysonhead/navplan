@@ -22,15 +22,15 @@ const App = () => {
                     <Menu />
                     <Flash />
                     <Switch>
-                        <Route path={"/"} exact component={Home} />
-                        <Route path={"/flightplans/new"} exact component={CreateFlightplan} />
-                        <Route path={"/flightplans/:id"} exact component={ShowFlightPlan} />
-                        <Route path={"/flightplans/list/:id"} exact component={ListFlightplans} />
-                        <Route path={"/flightplans/delete/:id"} exact component={DeleteFlightPlans} />
-                        <Route path={"/flightplans/:id/newsteerpoint"} exact component={NewSteerpoint} />
-                        <Route path={"/coordinates/:id/delete"} exact component={DeleteCoordinate} />
-                        <Route path={"/login"} exact component component={Login} />
-                        <Route path={"/user/create"} exact component={CreateUser} />
+                        <Route path={"/app"} exact component={Home} />
+                        <Route path={"/app/flightplans/new"} exact component={CreateFlightplan} />
+                        <Route path={"/app/flightplans/:id"} exact component={ShowFlightPlan} />
+                        <Route path={"/app/flightplans/list/:id"} exact component={ListFlightplans} />
+                        <Route path={"/app/flightplans/delete/:id"} exact component={DeleteFlightPlans} />
+                        <Route path={"/app/flightplans/:id/newsteerpoint"} exact component={NewSteerpoint} />
+                        <Route path={"/app/coordinates/:id/delete"} exact component={DeleteCoordinate} />
+                        <Route path={"/app/login"} exact component component={Login} />
+                        <Route path={"/app/user/create"} exact component={CreateUser} />
                     </Switch>
                 </div>
             </Router>

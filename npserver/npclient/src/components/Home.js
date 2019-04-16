@@ -3,7 +3,7 @@ import React from 'react';
 class Home extends React.Component {
     render() {
         return (
-            <div class="ui container">
+            <div className="ui container">
                 <p>
                 Welcome to NavPlan, a tool for creating shared flight plans in games like Eagle Dynamic's DCS world.
                 </p>

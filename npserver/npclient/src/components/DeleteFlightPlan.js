@@ -28,7 +28,7 @@ class DeleteFlightPlan extends React.Component {
         return (
             <>
                 <button onClick={this.onDelete} className={"ui button negative"}>Delete</button>
-                <Link to={'/flightplans'} className={"ui button"}>Cancel</Link>
+                <Link to={'/app/flightplans'} className={"ui button"}>Cancel</Link>
             </>
         )
     }

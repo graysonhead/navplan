@@ -40,8 +40,8 @@ def get_auth_token():
     return jsonify({'token': token.decode('ascii')})
 
 
-@app.route('/', defaults={'path': ''}, methods=['GET'])
-@app.route('/<path:path>')
+@app.route('/app', defaults={'path': ''}, methods=['GET'])
+@app.route('/app/<path:path>')
 def index(path):
     return render_template('index.html', version=app.config['VERSION'])
 

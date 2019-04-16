@@ -31,7 +31,7 @@ class Menu extends React.Component {
         if (this.props.auth.isSignedIn) {
             return (
                 <div className={"ui item"}>
-                    <Link to={"/"} onClick={this.props.logOutUser}>Logout</Link>
+                    <Link to={"/app"} onClick={this.props.logOutUser}>Logout</Link>
                 </div>
             )
         }
@@ -41,7 +41,7 @@ class Menu extends React.Component {
         if (!this.props.auth.isSignedIn) {
             return (
                 <div className={"ui item"}>
-                    <Link to={"/login"}>Login</Link>
+                    <Link to={"/app/login"}>Login</Link>
                 </div>
             )
         }
@@ -49,14 +49,14 @@ class Menu extends React.Component {
 
     renderListFlightplans() {
         if (this.props.auth.isSignedIn) {
-            return <Link to={`/flightplans/list/${this.props.auth.user.id}`} className={"item"}>Flightplans</Link>
+            return <Link to={`/app/flightplans/list/${this.props.auth.user.id}`} className={"item"}>Flightplans</Link>
         }
     }
 
     renderNewFlightplan() {
         if (this.props.auth.isSignedIn) {
             return (
-                <Link to={"/flightplans/new"} className={"item"}>New Flightplan</Link>
+                <Link to={"/app/flightplans/new"} className={"item"}>New Flightplan</Link>
             )
         }
     }
@@ -66,7 +66,7 @@ class Menu extends React.Component {
         return (
             <div className={"ui menu"}>
               <div className="header item">
-                  <Link to={"/"}>NavPlan.io</Link>
+                  <Link to={"/app"}>NavPlan.io</Link>
               </div>
                 {this.renderNewFlightplan()}
                 {this.renderListFlightplans()}

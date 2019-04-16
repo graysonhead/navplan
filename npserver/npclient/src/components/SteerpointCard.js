@@ -70,7 +70,7 @@ class SteerpointCard extends React.Component {
     }
 
     onDelete = () => {
-      history.push(`/coordinates/${this.props.coordinate.id}/delete`)
+      history.push(`/app/coordinates/${this.props.coordinate.id}/delete`)
     };
 
 

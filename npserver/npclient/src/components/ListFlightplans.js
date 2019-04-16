@@ -14,12 +14,12 @@ class ListFlightplans extends React.Component {
             return (
                 <div className={"item"} key={flightPlan.id}>
                     <div className={"right floated content"}>
-                        <Link to={`/flightplans/delete/${flightPlan.id}`} className={"ui button negative"}>
+                        <Link to={`/app/flightplans/delete/${flightPlan.id}`} className={"ui button negative"}>
                             Delete
                         </Link>
                     </div>
                     <div className={"content"}>
-                        <Link className={"header"} to={`/flightplans/${flightPlan.id}`}>
+                        <Link className={"header"} to={`/app/flightplans/${flightPlan.id}`}>
                             {flightPlan.name}
                         </Link>
                     </div>

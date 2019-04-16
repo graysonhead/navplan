@@ -47,7 +47,7 @@ export const createUser = (formValues) => async (dispatch) => {
               emphasis: 'positive',
               title: "User Created"
       }});
-      history.push('/login');
+      history.push('/app/login');
   } else {
       dispatch({ type: ADD_MESSAGE, payload: {text: `${response.response.data.message}`,
                 emphasis: 'negative',
@@ -68,7 +68,7 @@ export const logInUser = (formValues) => async (dispatch, getState) => {
         CURRENT_UID = response.data.id;
         dispatch({ type: GET_TOKEN, payload: token_resp.data.token});
         dispatch({ type: ADD_MESSAGE, payload: {text: "You have logged in", emphasis: 'positive', title: "Logged in"}})
-        history.push(`/flightplans/list/${response.data.id}`);
+        history.push(`/app/flightplans/list/${response.data.id}`);
     } else {
         dispatch({ type: ADD_MESSAGE, payload: {text: `${response.response.data.message}`,
                 emphasis: 'negative',
@@ -88,7 +88,7 @@ export const logInWithCookie = (token) => async dispatch => {
                 emphasis: 'positive',
                 title: "Error"
             }});
-        history.push('/login');
+        history.push('/app/login');
     }
 
 };
@@ -97,7 +97,7 @@ export const logOutUser = () => dispatch => {
     dispatch({ type: SIGN_OUT, payload: null});
     Cookies.remove('token', { path: ''});
     api = client(null);
-    history.push('/');
+    history.push('/app');
 };
 
 const error_handler = (response) => {
@@ -114,12 +114,12 @@ export const createFlightPlan = (formValues, redirectUrl) => async (dispatch, ge
     const response = await navplan.post('/flightplans', { ...formValues}, { headers: { ...auth_headers } });
     if (response.status > 199 && response.status < 300) {
         dispatch({ type: CREATE_FLIGHTPLAN, payload: response.data});
-        history.push(`/flightplans/list/${auth.user.id}`);
+        history.push(`/app/flightplans/list/${auth.user.id}`);
     } else {
         dispatch({ type: ADD_MESSAGE, payload: {text: `Something went wrong: ${response.response.data.message}`,
                 emphasis: 'negative',
                 title: "Error"}});
-        history.push('/login');
+        history.push('/app/login');
     }
 
 };
