@@ -27,13 +27,16 @@ class FlightPlanMap extends React.Component {
             console.log(steerpoint);
                 return (
                     <Marker
-                        key={steerpoint.id}
+                        key={`marker-${steerpoint.id}`}
                         coordinates={[steerpoint.longitude, steerpoint.latitude]}
-                        // latitude={steerpoint.latitude}
-                        // longitude={steerpoint.longitude}
-                        anchor={"bottom"}
+                        // anchor={"bottom"}
                     >
-                        <Pin size={20} />
+                        {/*<Pin />*/}
+                      <img
+                          src="https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678111-map-marker-512.png"
+                          width={20}
+                          height={20}
+                      />
                     </Marker>
                 )
         })

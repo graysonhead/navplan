@@ -1,3 +1,4 @@
+
 import React, {PureComponent} from 'react';
 
 const ICON = `M20.2,15.7L20.2,15.7c1.1-1.6,1.8-3.6,1.8-5.7c0-5.6-4.5-10-10-10S2,4.5,2,10c0,2,0.6,3.9,1.6,5.4c0,0.1,0.1,0.2,0.2,0.3
@@ -5,6 +6,7 @@ const ICON = `M20.2,15.7L20.2,15.7c1.1-1.6,1.8-3.6,1.8-5.7c0-5.6-4.5-10-10-10S2,
   C20.1,15.8,20.2,15.8,20.2,15.7z`;
 
 const pinStyle = {
+  cursor: 'pointer',
   fill: '#d00',
   stroke: 'none'
 };
@@ -20,7 +22,7 @@ export default class Pin extends PureComponent {
         viewBox="0 0 24 24"
         style={{...pinStyle, transform: `translate(${-size / 2}px,${-size}px)`}}
       >
-        <path d={ICON}/>
+        {/*<path d={ICON}/>*/}
       </svg>
     );
   }
