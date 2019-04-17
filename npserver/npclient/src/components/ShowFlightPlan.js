@@ -7,6 +7,8 @@ import SteerpointCard from "./SteerpointCard";
 import FlightPlanMap from "./FlightPlanMap";
 import history from '../history';
 import queryString from 'query-string';
+import SteerpointPath from "./map/SteerpointPath";
+import SteerpointMarkers from "./map/SteerpointMarkers";
 
 class ShowFlightPlan extends React.Component {
     state = {
@@ -48,9 +50,14 @@ class ShowFlightPlan extends React.Component {
 
     }
 
-    renderSteerpoints() {
+    sortSteerpoints() {
         const steerpoint_array = _.values(this.props.coordinates).filter(item => item.fp_steerpoint_id == this.props.match.params.id);
         const sorted_steerpoints = _.orderBy(steerpoint_array, 'order', 'asc');
+        return sorted_steerpoints
+    }
+
+    renderSteerpoints() {
+        const sorted_steerpoints = this.sortSteerpoints();
         return sorted_steerpoints.map(steerpoint => {
             var first_steerpoint, last_steerpoint
             if (steerpoint.order === 0) {
@@ -89,7 +96,10 @@ class ShowFlightPlan extends React.Component {
                 <h3>{`FlightPlan: ${this.props.flightPlan.name}`}</h3>
                 <FlightPlanMap
                     flightplan={this.props.flightPlan}
-                />
+                >
+                    <SteerpointPath flightplan={this.props.flightPlan} steerpoints={this.sortSteerpoints()}/>
+                    <SteerpointMarkers flightplan={this.props.flightPlan}/>
+                </FlightPlanMap>
                 <div>
                     <Button.Group widths={5}>
                         <Button

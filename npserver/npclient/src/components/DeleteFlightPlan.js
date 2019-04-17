@@ -34,7 +34,7 @@ class DeleteFlightPlan extends React.Component {
     }
 
     onDelete = () => {
-        this.props.deleteFlightPlan(this.props.match.params.id, '/flightplans');
+        this.props.deleteFlightPlan(this.props.match.params.id, '/app/flightplans');
     };
 
     render() {
@@ -43,7 +43,7 @@ class DeleteFlightPlan extends React.Component {
                 title={"Delete Flightplan"}
                 content={this.renderContent()}
                 actions={this.renderActions()}
-                onDismiss={() => history.push('/flightplans')}
+                onDismiss={() => history.push('/app/flightplans')}
             />
         )
     }
