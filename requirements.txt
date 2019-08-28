@@ -17,6 +17,7 @@ python-mimeparse==1.6.0
 six==1.12.0
 SQLAlchemy==1.2.17
 sqlalchemy-migrate==0.12.0
+SQLAlchemy-Utils==0.34.2
 sqlparse==0.2.4
 Tempita==0.5.2
 Werkzeug==0.14.1
