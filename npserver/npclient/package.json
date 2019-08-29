@@ -9,6 +9,7 @@
     "js-cookie": "^2.2.0",
     "lodash": "^4.17.11",
     "mapbox-gl": "^0.53.1",
+    "npm-watch": "^0.6.0",
     "query-string": "^6.2.0",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",

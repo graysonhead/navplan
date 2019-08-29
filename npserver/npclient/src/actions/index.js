@@ -198,6 +198,19 @@ export const reorderSteerpoint = (coord, new_pos, steerpoint_array) => async (di
     });
 };
 
+export const updateFlightPlanMapData = (flightplan_id, center_longitude, center_latitude, zoom_level) => async (dispatch, getState) => {
+    const {auth} = getState();
+    const auth_headers = getAuthHeaders(auth);
+    const response = await navplan.patch(`/flightplans/${flightplan_id}`,
+      {
+          map_center_latitude: center_latitude,
+          map_center_longitude: center_longitude,
+          map_zoom_level: zoom_level
+      },
+      {headers: {...auth_headers}});
+    dispatch({ type: EDIT_FLIGHTPLAN, payload: response.data})
+};
+
 export const createSteerpoint = (coordinatedict, flightplan_id, redirectUrl) => async (dispatch, getState) => {
     const {auth} = getState();
     const auth_headers = getAuthHeaders(auth);

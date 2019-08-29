@@ -12,14 +12,9 @@ class SteerpointMarkers extends React.Component {
                     <Marker
                         key={`marker-${steerpoint.id}`}
                         coordinates={[steerpoint.longitude, steerpoint.latitude]}
-                        // anchor={"bottom"}
+                        anchor={"bottom"}
                     >
-                        {/*<Pin />*/}
-                      <img
-                          src="https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678111-map-marker-512.png"
-                          width={20}
-                          height={20}
-                      />
+                      <img src="static/map-marker.png"/>
                     </Marker>
                 )
         })}
