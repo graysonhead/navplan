@@ -1,29 +1,35 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {Layer} from 'react-mapbox-gl';
+import { Layer, Feature } from 'react-mapbox-gl';
 import { Marker } from 'react-mapbox-gl';
 
 class SteerpointMarkers extends React.Component {
 
-    getMarkers() {
-    return this.props.flightplan.steerpoints.map(steerpoint => {
-            console.log(steerpoint);
-                return (
-                    <Marker
-                        key={`marker-${steerpoint.id}`}
-                        coordinates={[steerpoint.longitude, steerpoint.latitude]}
-                        anchor={"bottom"}
-                    >
-                      <img src="static/map-marker.png"/>
-                    </Marker>
-                )
-        })}
+    getSteerpointMarkers() {
+
+        return this.props.flightplan.steerpoints.map(steerpoint => {
+                console.log(steerpoint);
+                    return (
+                        <Feature
+                            anchor={"center"}
+                            key={steerpoint.id}
+                            coordinates={[steerpoint.longitude, steerpoint.latitude]}
+                        />
+                    )
+
+
+            })}
 
     render() {
-        return (
-            <Layer>
-                {this.getMarkers()}
-            </Layer>
+         return(
+             <Layer
+                type="symbol"
+                id="marker-steerpoints"
+                // layout={{ 'icon-image': 'marker-15' }}
+                layout={{ 'icon-image': 'triangle-15' }}
+             >
+                {this.getSteerpointMarkers()}
+             </Layer>
         )
     }
 }

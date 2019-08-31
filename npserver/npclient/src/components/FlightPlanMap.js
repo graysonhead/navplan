@@ -18,15 +18,20 @@ const mapStyle = {
 };
 
 class FlightPlanMap extends React.Component {
-    state = {
+    constructor(props) {
+        super(props);
+        this.state = {
         map_center: [this.props.flightplan.map_center_longitude, this.props.flightplan.map_center_latitude],
         map_zoom: [this.props.flightplan.map_zoom_level]
     };
+    }
+
 
     render =() => {
 
         return (
             <Map
+                ref={(e) => { this.map = e; }}
                 style={style}
                 containerStyle={mapStyle}
                 center={this.state.map_center}
@@ -40,20 +45,27 @@ class FlightPlanMap extends React.Component {
     };
 
     updateMap = () => {
-        console.log(this.state.map_center);
-        console.log(this.state.map_zoom);
-        // this.props.updateFlightPlanMapData(
-        //     this.props.flightPlan.id,
-        //     this.state.map_center[0],
-        //     this.state.map_center[1],
-        //     this.state.map_zoom[0]
-        // );
+        if (this.props.auth.isSignedIn) {
+            const center_object = this.map.state.map.getCenter();
+            this.setState(this.state = {
+                map_center: [center_object.lng, center_object.lat],
+                map_zoom: [this.map.state.map.getZoom()]
+                }
+            );
+            this.props.updateFlightPlanMapData(
+                this.props.flightPlan.id,
+                this.state.map_center[0],
+                this.state.map_center[1],
+                this.state.map_zoom[0]
+            );
+        }
     }
 }
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        flightPlan: state.flightPlans[ownProps.flightplan.id]
+        flightPlan: state.flightPlans[ownProps.flightplan.id],
+        auth: state.auth
     };
 };
 
