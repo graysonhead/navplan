@@ -5,9 +5,9 @@ import { Marker } from 'react-mapbox-gl';
 
 class SteerpointMarkers extends React.Component {
 
-    getSteerpointMarkers() {
-
-        return this.props.flightplan.steerpoints.map(steerpoint => {
+    getAttackMarkers() {
+        const steerpoint_list = this.props.flightplan.steerpoints.filter( steerpoint => steerpoint.steerpoint_type === "atk");
+        return steerpoint_list.map(steerpoint => {
                 console.log(steerpoint);
                     return (
                         <Feature
@@ -16,20 +16,60 @@ class SteerpointMarkers extends React.Component {
                             coordinates={[steerpoint.longitude, steerpoint.latitude]}
                         />
                     )
+            })
+    }
 
+    getSteerpointMarkers() {
+        const steerpoint_list = this.props.flightplan.steerpoints.filter( steerpoint => steerpoint.steerpoint_type === "stpt");
+        return steerpoint_list.map(steerpoint => {
+                console.log(steerpoint);
+                    return (
+                        <Feature
+                            anchor={"center"}
+                            key={steerpoint.id}
+                            coordinates={[steerpoint.longitude, steerpoint.latitude]}
+                        />
+                    )
+            })}
 
+    getToLndMarkers() {
+        const steerpoint_list = this.props.flightplan.steerpoints.filter( steerpoint => steerpoint.steerpoint_type === "departure" || steerpoint.steerpoint_type === "landing" );
+        return steerpoint_list.map(steerpoint => {
+                console.log(steerpoint);
+                    return (
+                        <Feature
+                            anchor={"center"}
+                            key={steerpoint.id}
+                            coordinates={[steerpoint.longitude, steerpoint.latitude]}
+                        />
+                    )
             })}
 
     render() {
          return(
+             <>
              <Layer
-                type="symbol"
+             id="marker-atkpoints"
+             layout={{ 'icon-image': 'star-15'}}
+             type="symbol"
+             >
+                 {this.getAttackMarkers()}
+             </Layer>
+             <Layer
                 id="marker-steerpoints"
-                // layout={{ 'icon-image': 'marker-15' }}
                 layout={{ 'icon-image': 'triangle-15' }}
+                type="symbol"
              >
                 {this.getSteerpointMarkers()}
              </Layer>
+            <Layer
+                id="marker-tolnd"
+                layout={{ 'icon-image': 'airport-15' }}
+                type="symbol"
+             >
+                {this.getToLndMarkers()}
+             </Layer>
+             </>
         )
     }
 }
