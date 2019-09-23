@@ -33,7 +33,7 @@ navplan.interceptors.response.use(response => {
 
 const getAuthHeaders = (authObj) => {
     if (authObj.isSignedIn) {
-        return { Authorization: authObj.authToken }
+        return { Authorization: authObj.authToken , Accept: "application/vnd.api+json"}
     } else {
         return {}
     }
@@ -179,10 +179,20 @@ export const fetchCoordsFromFlightPlan = (flightplan_id) => async dispatch => {
 export const fetchDelCoordsFromFlightPlan = (flightplan_id) => async (dispatch, getState) => {
     const {auth} = getState();
     const auth_headers = getAuthHeaders(auth);
-    const response = await navplan.get(`/coordinates?search={"name":"fp_steerpoint_id","op":"eq","val":"${flightplan_id}"}`,
-        { headers: { ...auth_headers } });
+    const filters = JSON.stringify({"filters" :[{"name": "fp_steerpoint_id", "op": "eq", "val": flightplan_id}]});
+    const response = await navplan.get(`/coordinates?q=${filters}`,
+        { headers: { ...auth_headers }});
+    let data = {...response.data.objects};
+    if (response.data.total_pages > 1) {
+        for (let index = 2; index <= response.data.total_pages; index++) {
+            const followup = await navplan.get(`/coordinates?q=${filters}&page=${index}`,
+        { headers: { ...auth_headers }});
+            data = {...data, ...followup.data.objects};
 
-    dispatch({ type: FETCH_DELETE_COORDS, payload: response.data.objects });
+        }
+    }
+
+    dispatch({ type: FETCH_DELETE_COORDS, payload: data });
 };
 
 export const reorderSteerpoint = (coord, new_pos, steerpoint_array) => async (dispatch, getState) => {

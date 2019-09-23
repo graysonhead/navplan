@@ -12,6 +12,7 @@ stages:
 variables:
   DOCKER_DRIVER: overlay2
   DOCKER_HOST: tcp://localhost:2375
+  IMAGE_URI_DEV: code.graysonhead.net:5555/graysonhead/navplan:development
   IMAGE_URI: code.graysonhead.net:5555/graysonhead/navplan:$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA
   IMAGE_NAME: $CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA
   KUBECONFIG: /etc/deploy/config
@@ -26,6 +27,7 @@ build:
   script:
     - echo "building ${CI_COMMIT_SHORT_SHA} $IMAGE_URI"
     - docker build --build-arg version=$IMAGE_NAME --pull -t $IMAGE_URI .
+    - docker tag $IMAGE_URI $
     - docker push $IMAGE_URI
 
 deploy-dev:
