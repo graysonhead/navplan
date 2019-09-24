@@ -21,8 +21,19 @@
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-    <div id="modal"></div>
+    <div id="page-container">
+      <div id="content-wrap">
+        <div id="root"></div>
+        <div id="modal"></div>
+      </div>
+      <footer id="footer">
+        <div class="ui vertical footer form-page">
+          <div class="ui container">
+              <center><font size="1">Version {{ version }}. 	© Grayson Head 2019</font></center>
+          </div>
+        </div>
+      </footer>
+    </div>
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
@@ -33,11 +44,7 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
-    <div class="ui vertical footer form-page">
-        <div class="ui container">
-            <center><font size="1">Version {{ version }}. 	© Grayson Head 2019</font></center>
-        </div>
-    </div>
+
       <script src="/static/bundle.js"></script>
   </body>
 </html>
