@@ -4,8 +4,11 @@ import { connect } from 'react-redux';
 import { fetchFlightPlan, fetchDelCoordsFromFlightPlan } from "../actions";
 import { Button, Icon, Divider } from 'semantic-ui-react';
 import SteerpointCard from "./SteerpointCard";
+import FlightPlanMap from "./FlightPlanMap";
 import history from '../history';
 import queryString from 'query-string';
+import SteerpointPath from "./map/SteerpointPath";
+import SteerpointMarkers from "./map/SteerpointMarkers";
 
 class ShowFlightPlan extends React.Component {
     state = {
@@ -18,6 +21,7 @@ class ShowFlightPlan extends React.Component {
     }
 
     fetchData() {
+        this.props.fetchFlightPlan(this.props.match.params.id);
         this.props.fetchDelCoordsFromFlightPlan(this.props.match.params.id);
     }
 
@@ -30,9 +34,31 @@ class ShowFlightPlan extends React.Component {
         }
     }
 
-    renderSteerpoints() {
+    renderCreateSteerpointButton() {
+        if (this.props.auth.isSignedIn) {
+            if (this.props.auth.user.id === this.props.flightPlan.owner_id) {
+                return (
+                    <Button primary
+                        onClick={() => history.push({
+                                pathname: `/app/flightplans/${this.props.flightPlan.id}/newsteerpoint`
+                            })}
+                        >
+                            <Icon name={'plus square'}/>Create Steerpoint
+                    </Button>
+                )
+            }
+        }
+
+    }
+
+    sortSteerpoints() {
         const steerpoint_array = _.values(this.props.coordinates).filter(item => item.fp_steerpoint_id == this.props.match.params.id);
         const sorted_steerpoints = _.orderBy(steerpoint_array, 'order', 'asc');
+        return sorted_steerpoints
+    }
+
+    renderSteerpoints() {
+        const sorted_steerpoints = this.sortSteerpoints();
         return sorted_steerpoints.map(steerpoint => {
             var first_steerpoint, last_steerpoint
             if (steerpoint.order === 0) {
@@ -52,6 +78,7 @@ class ShowFlightPlan extends React.Component {
                 coord_id={steerpoint.id}
                 first={first_steerpoint}
                 last={last_steerpoint}
+                fp_owner={this.props.flightPlan.owner_id}
             />
         })
     };
@@ -68,6 +95,12 @@ class ShowFlightPlan extends React.Component {
         return (
             <div>
                 <h3>{`FlightPlan: ${this.props.flightPlan.name}`}</h3>
+                <FlightPlanMap
+                    flightplan={this.props.flightPlan}
+                >
+                    <SteerpointPath flightplan={this.props.flightPlan} steerpoints={this.sortSteerpoints()}/>
+                    <SteerpointMarkers flightplan={this.props.flightPlan}/>
+                </FlightPlanMap>
                 <div>
                     <Button.Group widths={5}>
                         <Button
@@ -111,13 +144,7 @@ class ShowFlightPlan extends React.Component {
                     {this.renderSteerpoints()}
                 </div>
                 <div className={"ui right floated"}>
-                    <Button primary
-                    onClick={() => history.push({
-                            pathname: `/flightplans/${this.props.flightPlan.id}/newsteerpoint`
-                        })}
-                    >
-                        <Icon name={'plus square'}/>Create Steerpoint
-                    </Button>
+                    {this.renderCreateSteerpointButton()}
                 </div>
             </div>
         )
@@ -127,7 +154,8 @@ class ShowFlightPlan extends React.Component {
 const mapStateToProps = (state, ownProps) => {
     return {
         flightPlan: state.flightPlans[ownProps.match.params.id],
-        coordinates: state.coordinates
+        coordinates: state.coordinates,
+        auth: state.auth
     };
 };
 

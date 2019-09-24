@@ -7,10 +7,10 @@ import Cookies from 'js-cookie';
 class Menu extends React.Component {
 
     componentDidMount() {
-        // const token = Cookies.get('token');
-        // if (token) {
-        //     this.props.logInWithCookie(token);
-        // }
+        const token = Cookies.get('token');
+        if (token) {
+            this.props.logInWithCookie(token);
+        }
     }
 
     renderCallsign() {
@@ -24,14 +24,14 @@ class Menu extends React.Component {
     }
 
     onLogOut() {
-        this.props.logOutUser()
+        this.props.logOutUser();
     }
 
     renderLogout() {
         if (this.props.auth.isSignedIn) {
             return (
                 <div className={"ui item"}>
-                    <Link to={"/"} onClick={this.onLogOut}>Logout</Link>
+                    <Link to={"/app"} onClick={this.props.logOutUser}>Logout</Link>
                 </div>
             )
         }
@@ -41,7 +41,7 @@ class Menu extends React.Component {
         if (!this.props.auth.isSignedIn) {
             return (
                 <div className={"ui item"}>
-                    <Link to={"/login"}>Login</Link>
+                    <Link to={"/app/login"}>Login</Link>
                 </div>
             )
         }
@@ -49,7 +49,15 @@ class Menu extends React.Component {
 
     renderListFlightplans() {
         if (this.props.auth.isSignedIn) {
-            return <Link to={`/flightplans/list/${this.props.auth.user.id}`} className={"item"}>Flightplans</Link>
+            return <Link to={`/app/flightplans/list/${this.props.auth.user.id}`} className={"item"}>Flightplans</Link>
+        }
+    }
+
+    renderNewFlightplan() {
+        if (this.props.auth.isSignedIn) {
+            return (
+                <Link to={"/app/flightplans/new"} className={"item"}>New Flightplan</Link>
+            )
         }
     }
 
@@ -58,10 +66,10 @@ class Menu extends React.Component {
         return (
             <div className={"ui menu"}>
               <div className="header item">
-                  <Link to={"/"}>NavPlan.io</Link>
+                  <Link to={"/app"}>NavPlan.io</Link>
               </div>
-              <Link to={"/flightplans/new"} className={"item"}>New Flightplan</Link>
-            {this.renderListFlightplans()}
+                {this.renderNewFlightplan()}
+                {this.renderListFlightplans()}
               <div className={"right menu"}>
                   {this.renderCallsign()}
                   {this.renderLogout()}

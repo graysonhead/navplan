@@ -28,13 +28,13 @@ class DeleteFlightPlan extends React.Component {
         return (
             <>
                 <button onClick={this.onDelete} className={"ui button negative"}>Delete</button>
-                <Link to={'/flightplans'} className={"ui button"}>Cancel</Link>
+                <Link to={'/app/flightplans'} className={"ui button"}>Cancel</Link>
             </>
         )
     }
 
     onDelete = () => {
-        this.props.deleteFlightPlan(this.props.match.params.id, '/flightplans');
+        this.props.deleteFlightPlan(this.props.match.params.id, '/app/flightplans');
     };
 
     render() {
@@ -43,7 +43,7 @@ class DeleteFlightPlan extends React.Component {
                 title={"Delete Flightplan"}
                 content={this.renderContent()}
                 actions={this.renderActions()}
-                onDismiss={() => history.push('/flightplans')}
+                onDismiss={() => history.push('/app/flightplans')}
             />
         )
     }

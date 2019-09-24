@@ -1,4 +1,6 @@
 const webpack = require('webpack');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+
 const config = {
     entry:  __dirname + '/src/index.js',
     devtool: "source-map",
@@ -19,11 +21,17 @@ const config = {
             },
             {
                   test: /\.css$/,
-                  exclude: /node_modules/,
-                  loaders: ['style-loader', 'css-loader'],
+		    // exclude: /node_modules/,
+                  use: [MiniCssExtractPlugin.loader, 'css-loader'],
              }
         ]
     },
+    plugins: [
+        new MiniCssExtractPlugin({
+            filename: "[name].css",
+            chunkFilename: "[id].css"
+        })
+    ],
     resolve: {
         extensions: ['.js', '.jsx', '.css']
     },

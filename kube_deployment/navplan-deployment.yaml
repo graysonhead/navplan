@@ -19,6 +19,7 @@ metadata:
   labels:
     app: navplan
 spec:
+  replicas: 1
   selector:
     matchLabels:
       app: navplan
@@ -32,11 +33,15 @@ spec:
         tier: frontend
     spec:
       containers:
-      - image: code.graysonhead.net:5555/graysonhead/navplan:1.0.3
+      - image: %ImageUri
         name: npserver
         env:
+        - name: NP_ADMIN_USER
+          value: test
+        - name: NP_ADMIN_PASS
+          value: nptest
         - name: NP_DATABASE_URI
-          value: "mysql://NavPlan67SREDF:f3efsaef@navplan-mysql:3306/navplan"
+          value: "mysql+pymysql://root:password@navplan-mysql:3306/navplan"
         ports:
           - containerPort: 5000
             name: npserver

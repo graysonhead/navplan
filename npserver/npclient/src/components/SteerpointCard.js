@@ -70,7 +70,7 @@ class SteerpointCard extends React.Component {
     }
 
     onDelete = () => {
-      history.push(`/coordinates/${this.props.coordinate.id}/delete`)
+      history.push(`/app/coordinates/${this.props.coordinate.id}/delete`)
     };
 
 
@@ -88,7 +88,9 @@ class SteerpointCard extends React.Component {
 
 
     renderControls() {
-        return (
+        if (this.props.auth.isSignedIn) {
+            if (this.props.auth.user.id === this.props.fp_owner) {
+                return (
                 <div className="right floated ui buttons">
                     <SelectType
                             items={STEERPOINT_TYPES}
@@ -100,6 +102,8 @@ class SteerpointCard extends React.Component {
                     {this.renderDelete()}
                 </div>
         )
+            }
+        }
     }
 
     determineColor() {
@@ -159,7 +163,10 @@ class SteerpointCard extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    return { coordinate: state.coordinates[ownProps.coord_id]}
+    return {
+        coordinate: state.coordinates[ownProps.coord_id],
+        auth: state.auth
+    }
 };
 
 export default connect(mapStateToProps, { fetchCoord, reorderSteerpoint, editCoordinate })(SteerpointCard);

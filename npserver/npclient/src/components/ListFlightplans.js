@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { fetchFlightPlans } from "../actions";
+import { fetchFlightPlans, logInWithCookie } from "../actions";
 import { CURRENT_UID } from "../actions";
 
 class ListFlightplans extends React.Component {
@@ -14,12 +14,12 @@ class ListFlightplans extends React.Component {
             return (
                 <div className={"item"} key={flightPlan.id}>
                     <div className={"right floated content"}>
-                        <Link to={`/flightplans/delete/${flightPlan.id}`} className={"ui button negative"}>
+                        <Link to={`/app/flightplans/delete/${flightPlan.id}`} className={"ui button negative"}>
                             Delete
                         </Link>
                     </div>
                     <div className={"content"}>
-                        <Link className={"header"} to={`/flightplans/${flightPlan.id}`}>
+                        <Link className={"header"} to={`/app/flightplans/${flightPlan.id}`}>
                             {flightPlan.name}
                         </Link>
                     </div>
@@ -48,4 +48,4 @@ const mapStateToProps = (state) => {
 
 };
 
-export default connect(mapStateToProps, { fetchFlightPlans })(ListFlightplans);
+export default connect(mapStateToProps, { fetchFlightPlans, logInWithCookie })(ListFlightplans);

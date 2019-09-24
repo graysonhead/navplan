@@ -6,7 +6,7 @@ import history from '../history';
 
 class FlightPlanCreate extends React.Component {
     onSubmit = formValues => {
-        this.props.createFlightPlan(formValues, '/flightplans');
+        this.props.createFlightPlan(formValues, '/app/flightplans');
     };
 
     render() {

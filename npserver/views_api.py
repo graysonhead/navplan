@@ -15,8 +15,11 @@ def token_check():
     if auth:
         user = models.User.verify_auth_token(auth)
         g.user = user
-    if not auth or not user:
+    if not auth:
+        raise ProcessingException("You must log in to view this page or perform this action", code=401)
+    elif not user:
         raise ProcessingException("Token invalid or expired", code=401)
+
     return user
 
 

@@ -1,5 +1,7 @@
 import React from 'react';
 import { Field, reduxForm } from 'redux-form';
+import history from "../../history";
+import {Button, Icon} from "semantic-ui-react";
 
 
 class LoginForm extends React.Component {
@@ -46,6 +48,13 @@ class LoginForm extends React.Component {
                     <Field name={"email"} component={this.renderInput} label={"Email Address"} />
                     <Field name={"password"} component={this.renderPasswordInput} label={"Password"} />
                     <button className={"ui button primary"}>Login</button>
+                    <Button primary
+                        onClick={() => history.push({
+                                pathname: `/app/user/create`
+                            })}
+                        >
+                            <Icon name={'plus square'}/>Create User
+                    </Button>
                 </form>
             </div>
         )

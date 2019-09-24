@@ -1,5 +1,7 @@
 FROM alpine
 
+ARG version
+ENV NP_VERSION=$version
 RUN apk add --no-cache py3-gunicorn python3 \
         && pip3 install --upgrade pip
 
