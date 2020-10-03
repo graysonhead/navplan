@@ -18,8 +18,6 @@ export default (state = {}, action) => {
         case EDIT_FLIGHTPLAN:
             return { ...state, [action.payload.id]: action.payload};
         case DELETE_FLIGHTPLAN:
-            console.log(state);
-            console.log(action.payload);
             return _.omit(state, action.payload);
         default:
             return state;

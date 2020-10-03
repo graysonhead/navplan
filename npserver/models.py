@@ -84,6 +84,9 @@ class FlightPlan(db.Model):
     name = Column(String(120))
     owner_id = Column(Integer, ForeignKey('user.id'))
     owner = relationship("User", back_populates="flightplans")
+    map_center_longitude = Column(Float)
+    map_center_latitude = Column(Float)
+    map_zoom_level = Column(Float)
     steerpoints = relationship("Coordinate",
                                back_populates="steerpoint_flightplan",
                                foreign_keys="[Coordinate.fp_steerpoint_id]")

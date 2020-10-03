@@ -1,34 +1,72 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {Layer} from 'react-mapbox-gl';
+import { Layer, Feature } from 'react-mapbox-gl';
 import { Marker } from 'react-mapbox-gl';
 
 class SteerpointMarkers extends React.Component {
 
-    getMarkers() {
-    return this.props.flightplan.steerpoints.map(steerpoint => {
-            console.log(steerpoint);
-                return (
-                    <Marker
-                        key={`marker-${steerpoint.id}`}
-                        coordinates={[steerpoint.longitude, steerpoint.latitude]}
-                        // anchor={"bottom"}
-                    >
-                        {/*<Pin />*/}
-                      <img
-                          src="https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678111-map-marker-512.png"
-                          width={20}
-                          height={20}
-                      />
-                    </Marker>
-                )
-        })}
+    getAttackMarkers() {
+        const steerpoint_list = this.props.flightplan.steerpoints.filter( steerpoint => steerpoint.steerpoint_type === "atk");
+        return steerpoint_list.map(steerpoint => {
+                    return (
+                        <Feature
+                            anchor={"center"}
+                            key={steerpoint.id}
+                            coordinates={[steerpoint.longitude, steerpoint.latitude]}
+                        />
+                    )
+            })
+    }
+
+    getSteerpointMarkers() {
+        const steerpoint_list = this.props.flightplan.steerpoints.filter( steerpoint => steerpoint.steerpoint_type === "stpt");
+        return steerpoint_list.map(steerpoint => {
+                    return (
+                        <Feature
+                            anchor={"center"}
+                            key={steerpoint.id}
+                            coordinates={[steerpoint.longitude, steerpoint.latitude]}
+                        />
+                    )
+            })}
+
+    getToLndMarkers() {
+        const steerpoint_list = this.props.flightplan.steerpoints.filter( steerpoint => steerpoint.steerpoint_type === "departure" || steerpoint.steerpoint_type === "landing" );
+        return steerpoint_list.map(steerpoint => {
+                    return (
+                        <Feature
+                            anchor={"center"}
+                            key={steerpoint.id}
+                            coordinates={[steerpoint.longitude, steerpoint.latitude]}
+                        />
+                    )
+            })}
 
     render() {
-        return (
-            <Layer>
-                {this.getMarkers()}
-            </Layer>
+         return(
+             <>
+             <Layer
+             id="marker-atkpoints"
+             layout={{ 'icon-image': 'star-15'}}
+             type="symbol"
+             >
+                 {this.getAttackMarkers()}
+             </Layer>
+             <Layer
+                id="marker-steerpoints"
+                layout={{ 'icon-image': 'triangle-15' }}
+                type="symbol"
+             >
+                {this.getSteerpointMarkers()}
+             </Layer>
+            <Layer
+                id="marker-tolnd"
+                layout={{ 'icon-image': 'airport-15' }}
+                type="symbol"
+             >
+                {this.getToLndMarkers()}
+             </Layer>
+             </>
         )
     }
 }

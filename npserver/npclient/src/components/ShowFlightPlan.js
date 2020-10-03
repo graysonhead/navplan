@@ -21,7 +21,12 @@ class ShowFlightPlan extends React.Component {
     }
 
     fetchData() {
+        this.props.fetchFlightPlan(this.props.match.params.id);
         this.props.fetchDelCoordsFromFlightPlan(this.props.match.params.id);
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.timer);
     }
 
     componentWillReceiveProps(nextProps) {

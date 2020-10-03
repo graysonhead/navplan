@@ -1,17 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import ReactMap, {Layer, GeoJSONLayer, Feature} from 'react-mapbox-gl';
-import { Marker } from 'react-mapbox-gl';
-import * as MapboxGL from 'mapbox-gl';
-import Pin from "./map/pin";
+import ReactMapboxGl, {Layer, GeoJSONLayer, Feature} from 'react-mapbox-gl';
+import {updateFlightPlanMapData} from "../actions";
 import 'mapbox-gl/dist/mapbox-gl.css';
-import SteerpointPath from "./map/SteerpointPath";
 
 const accessToken = "pk.eyJ1IjoiZ3JheXNvbmhlYWQiLCJhIjoiY2p1Z2d0YjBoMHA2cDN5cGI4anYyYjN5dSJ9.WOkEIcr-x_6NEiua4U6A-w";
 const style = "mapbox://styles/mapbox/streets-v9";
 
 
-const Map = ReactMap({
+const Map = ReactMapboxGl({
     accessToken
 });
 
@@ -21,78 +18,55 @@ const mapStyle = {
 };
 
 class FlightPlanMap extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+        map_center: [this.props.flightplan.map_center_longitude, this.props.flightplan.map_center_latitude],
+        map_zoom: [this.props.flightplan.map_zoom_level]
+    };
+    }
 
 
+    render =() => {
 
-
-
-
-
-    // getGeoJson() {
-    //     let steerpoints = [];
-    //     this.props.flightplan.steerpoints.map(steerpoint => {
-    //         steerpoints.push([steerpoint.longitude, steerpoint.latitude])
-    //     });
-    //     console.log(steerpoints);
-    //
-    //     return {
-    //         id: 'routes',
-    //         type: 'line',
-    //         source: {
-    //             type: 'geojson',
-    //             data: {
-    //                 type: 'Feature',
-    //                 properties: {'color': 'blue'},
-    //                 geometry: {
-    //                     "type": "LineString",
-    //                     "coordinates": steerpoints
-    //                 }
-    //             }
-    //         },
-    //         paint: {
-    //             'line-width': 3,
-    //             'line-color': {
-    //                 'type': 'identity',
-    //                 'property': 'color'
-    //             }
-    //         }
-    //     }
-    // }
-    //
-    // getGeoJSONLayer() {
-    //     let steerpoints = [];
-    //     this.props.flightplan.steerpoints.map(steerpoint => {
-    //         steerpoints.push([steerpoint.longitude, steerpoint.latitude])
-    //     });
-    //
-    //     let linePaint = MapboxGL.LinePaint = {
-    //         'line-color': "#ff0000",
-    //         'line-opacity': 0.9
-    //     };
-    //
-    //     return (
-    //         <Layer key={"lineKey"} type={'line'} paint={linePaint}>
-    //             <Feature coordinates={this.getSteerpointCoords()}/>
-    //         </Layer>
-    //     )
-    // }
-
-    render() {
         return (
             <Map
+                ref={(e) => { this.map = e; }}
                 style={style}
                 containerStyle={mapStyle}
+                center={this.state.map_center}
+                zoom={this.state.map_zoom}
+                onDragEnd={this.updateMap}
+                onZoomEnd={this.updateMap}
             >
                 {this.props.children}
             </Map>
         )
+    };
+
+    updateMap = () => {
+        if (this.props.auth.isSignedIn) {
+            const center_object = this.map.state.map.getCenter();
+            this.setState(this.state = {
+                map_center: [center_object.lng, center_object.lat],
+                map_zoom: [this.map.state.map.getZoom()]
+                }
+            );
+            this.props.updateFlightPlanMapData(
+                this.props.flightPlan.id,
+                this.state.map_center[0],
+                this.state.map_center[1],
+                this.state.map_zoom[0]
+            );
+        }
     }
 }
 
 const mapStateToProps = (state, ownProps) => {
     return {
-
+        flightPlan: state.flightPlans[ownProps.flightplan.id],
+        auth: state.auth
     };
 };
 
-export default connect(mapStateToProps, {})(FlightPlanMap);
+export default connect(mapStateToProps, {updateFlightPlanMapData})(FlightPlanMap);
