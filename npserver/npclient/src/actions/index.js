@@ -41,7 +41,6 @@ const getAuthHeaders = (authObj) => {
 
 export const createUser = (formValues) => async (dispatch) => {
   const response = await navplan.post('/auth/users/new', formValues);
-  console.log(response);
   if (response.status === 201) {
       dispatch({ type: ADD_MESSAGE, payload: {text: "Log in with your account info to use the app",
               emphasis: 'positive',

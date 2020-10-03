@@ -25,6 +25,10 @@ class ShowFlightPlan extends React.Component {
         this.props.fetchDelCoordsFromFlightPlan(this.props.match.params.id);
     }
 
+    componentWillUnmount() {
+        clearInterval(this.timer);
+    }
+
     componentWillReceiveProps(nextProps) {
         const values = queryString.parse(nextProps.location.search);
         if (values.displayMode) {

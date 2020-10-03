@@ -16,8 +16,6 @@ class NewSteerpoint extends React.Component {
     }
 
     onSubmit = formValues => {
-        console.log(formValues);
-        console.log(this.state);
         this.props.createSteerpoint(formValues, this.props.match.params.id, `/app/flightplans/${this.props.match.params.id}`);
     };
 

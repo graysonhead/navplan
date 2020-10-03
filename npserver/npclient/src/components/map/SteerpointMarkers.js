@@ -8,7 +8,6 @@ class SteerpointMarkers extends React.Component {
     getAttackMarkers() {
         const steerpoint_list = this.props.flightplan.steerpoints.filter( steerpoint => steerpoint.steerpoint_type === "atk");
         return steerpoint_list.map(steerpoint => {
-                console.log(steerpoint);
                     return (
                         <Feature
                             anchor={"center"}
@@ -22,7 +21,6 @@ class SteerpointMarkers extends React.Component {
     getSteerpointMarkers() {
         const steerpoint_list = this.props.flightplan.steerpoints.filter( steerpoint => steerpoint.steerpoint_type === "stpt");
         return steerpoint_list.map(steerpoint => {
-                console.log(steerpoint);
                     return (
                         <Feature
                             anchor={"center"}
@@ -35,7 +33,6 @@ class SteerpointMarkers extends React.Component {
     getToLndMarkers() {
         const steerpoint_list = this.props.flightplan.steerpoints.filter( steerpoint => steerpoint.steerpoint_type === "departure" || steerpoint.steerpoint_type === "landing" );
         return steerpoint_list.map(steerpoint => {
-                console.log(steerpoint);
                     return (
                         <Feature
                             anchor={"center"}
