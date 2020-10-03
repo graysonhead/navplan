@@ -128,13 +128,13 @@ class ShowFlightPlan extends React.Component {
                         >
                             LatLon Deg/Min/Sec
                         </Button>
-                        {/*<Button*/}
-                            {/*active={this.state.displayMode === "MGRS" ? true : false}*/}
-                            {/*onClick={() => {history.push(*/}
-                                {/*{pathname: this.props.location.pathname, search: `?displayMode=MGRS`})}}*/}
-                        {/*>*/}
-                            {/*MGRS*/}
-                        {/*</Button>*/}
+                        <Button
+                            active={this.state.displayMode === "MGRS" ? true : false}
+                            onClick={() => {history.push(
+                                {pathname: this.props.location.pathname, search: `?displayMode=MGRS`})}}
+                        >
+                            MGRS
+                        </Button>
                         {/*<Button*/}
                             {/*active={this.state.displayMode === "UTM" ? true : false}*/}
                             {/*onClick={() => {history.push(*/}

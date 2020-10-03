@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { fetchCoord, reorderSteerpoint, editCoordinate } from "../actions";
 import { Field, reduxForm } from 'redux-form';
+import mgrs from 'mgrs';
 import SelectType from './forms/SelectType';
 import history from '../history';
 var LatLon = require('geodesy').LatLonSpherical;
@@ -130,8 +131,8 @@ class SteerpointCard extends React.Component {
                 return this.state.latLon.toString('dm');
             case 'LatLonDegMinSec':
                 return this.state.latLon.toString('dms');
-            case 'UTM':
-                return null;
+            case 'MGRS':
+                return mgrs.forward([this.props.coordinate.longitude, this.props.coordinate.latitude]);
             default:
                 return '';
             }
