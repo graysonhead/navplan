@@ -1,11 +1,12 @@
 from npserver import db, app
-from sqlalchemy import String, Column, Integer, ForeignKey, Float, DateTime
+from sqlalchemy import String, Column, Integer, ForeignKey, Float, DateTime, MetaData
 from sqlalchemy.sql import func
 from sqlalchemy.orm import relationship
 from werkzeug.security import generate_password_hash, check_password_hash
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer, \
     BadSignature, \
     SignatureExpired
+
 
 
 class User(db.Model):
@@ -106,9 +107,10 @@ class Coordinate(db.Model):
     latitude = Column(Float)
     longitude = Column(Float)
     steerpoint_type = Column(String(120))
-
-print("Creating DB")
-db.create_all()
+    name = Column(String(120))
+#
+# print("Creating DB")
+# db.create_all()
 
 if app.config["ADMIN_USER"] and app.config["ADMIN_PASS"]:
     s = db.session()
