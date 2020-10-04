@@ -156,6 +156,7 @@ class SteerpointCard extends React.Component {
             <div className={`ui ${this.determineColor()} clearing segment`}>
                 {this.renderControls()}
                     <div className={"content"}>
+                        <p><b>{this.props.coordinate.name}</b></p>
                         {this.getDisplayString()}
                     </div>
             </div>

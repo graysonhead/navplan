@@ -23,15 +23,18 @@ class CoordinateLLForm extends React.Component {
     }
 
     onSubmit = formValues => {
+        let coord_dict = {};
         if (this.state.displayMode === "LatLon") {
             const coord = new Coordinates(formValues.coordinates);
-            const coord_dict = { latitude: coord.getLatitude(), longitude: coord.getLongitude()};
-            this.props.onSubmit(coord_dict);
+            coord_dict.latitude = coord.getLatitude();
+            coord_dict.longitude = coord.getLongitude();
         } else if (this.state.displayMode === "MGRS") {
             const coord = new mgrs.toPoint(formValues.coordinates);
-            const coord_dict = {latitude: coord[0], longitude: coord[1]};
-            this.props.onSubmit(coord_dict);
+            coord_dict.latitude = coord[0];
+            coord_dict.longitude = coord[1];
         }
+        coord_dict.name = formValues.name;
+        this.props.onSubmit(coord_dict);
     };
 
     renderInput = ({input, label, meta}) => {
@@ -49,6 +52,7 @@ class CoordinateLLForm extends React.Component {
         return (
             <form className={"ui form error"} onSubmit={this.props.handleSubmit(this.onSubmit)}>
                 <div>
+                    <Field name={"name"} component={this.renderInput} label={"Name"}/>
                     <Button.Group widths={5}>
                         <Button
                             active={this.state.displayMode === "LatLon" ? true : false}
@@ -72,7 +76,6 @@ class CoordinateLLForm extends React.Component {
 }
 
 const isValidPosition = function(position) {
-  var error;
   var isValid;
         try {
             isValid = true;
@@ -81,7 +84,6 @@ const isValidPosition = function(position) {
         } catch (error) {
             try {
               isValid = true;
-              console.log(position);
               mgrs.toPoint(position);
               return isValid;
             } catch (error) {
@@ -93,7 +95,6 @@ const isValidPosition = function(position) {
 
 const validate = (formvalues) => {
     const errors = {};
-    console.log(formvalues);
     if (!formvalues.coordinates) {
         errors.coordinates = "You must enter coordinates"
     } else if (!isValidPosition(formvalues.coordinates)) {
